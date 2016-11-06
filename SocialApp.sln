@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialApp", "SocialApp\SocialApp.csproj", "{66E1D2E7-16B2-4D3E-AF91-94A589A1D483}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialApp.DB", "SocialApp.DB\SocialApp.DB.csproj", "{260BB484-28E3-4D30-86AD-4581E4EE05FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialApp.Repository", "SocailApp.Repository\SocialApp.Repository.csproj", "{8D877B3B-F2D7-482B-A3A0-C90D04786F8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{66E1D2E7-16B2-4D3E-AF91-94A589A1D483}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66E1D2E7-16B2-4D3E-AF91-94A589A1D483}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66E1D2E7-16B2-4D3E-AF91-94A589A1D483}.Release|Any CPU.Build.0 = Release|Any CPU
+		{260BB484-28E3-4D30-86AD-4581E4EE05FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{260BB484-28E3-4D30-86AD-4581E4EE05FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{260BB484-28E3-4D30-86AD-4581E4EE05FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{260BB484-28E3-4D30-86AD-4581E4EE05FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D877B3B-F2D7-482B-A3A0-C90D04786F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D877B3B-F2D7-482B-A3A0-C90D04786F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D877B3B-F2D7-482B-A3A0-C90D04786F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D877B3B-F2D7-482B-A3A0-C90D04786F8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

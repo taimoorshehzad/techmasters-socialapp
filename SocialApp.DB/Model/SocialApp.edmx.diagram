@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f8c98be5b6d74f8cb30eb988295a59ae" Name="Diagram1">
+        <EntityTypeShape EntityType="SocialAppModel.Comment" Width="1.5" PointX="7.5" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialAppModel.Conversation" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialAppModel.FriendRequest" Width="1.5" PointX="5.25" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialAppModel.Like" Width="1.5" PointX="7.5" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialAppModel.LikeStatu" Width="1.5" PointX="5.25" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialAppModel.Notification" Width="1.5" PointX="5.25" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialAppModel.Organization" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialAppModel.Post" Width="1.5" PointX="5.25" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialAppModel.UserFriend" Width="1.5" PointX="5.25" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialAppModel.UserMessage" Width="1.5" PointX="7.5" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SocialAppModel.UserProfile" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+        <AssociationConnector Association="SocialAppModel.FK_Comment_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_Comment_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_Conversation_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_Conversation_UserProfile1" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_UserMessage_Conversation" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_FriendRequest_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_FriendRequest_UserProfile1" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_Like_LikeStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_Like_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_Like_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_Notification_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_UserProfile_Organization" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_Post_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_Post_UserProfile1" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_UserFriend_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_UserFriend_UserProfile1" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_UserMessage_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="SocialAppModel.FK_UserMessage_UserProfile1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

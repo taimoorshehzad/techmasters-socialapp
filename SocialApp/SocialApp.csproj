@@ -168,6 +168,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -242,6 +243,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_AdminMenu.cshtml" />
     <Content Include="Views\Shared\_UserMenu.cshtml" />
+    <Content Include="Views\Admin\Organization.cshtml" />
+    <Content Include="Views\Admin\CreateOrganization.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -258,6 +261,16 @@
     <EmbeddedResource Include="Migrations\201610160813223_InitialCreate.resx">
       <DependentUpon>201610160813223_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SocailApp.Repository\SocialApp.Repository.csproj">
+      <Project>{8d877b3b-f2d7-482b-a3a0-c90d04786f8f}</Project>
+      <Name>SocialApp.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocialApp.DB\SocialApp.DB.csproj">
+      <Project>{260bb484-28e3-4d30-86ad-4581e4ee05fa}</Project>
+      <Name>SocialApp.DB</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

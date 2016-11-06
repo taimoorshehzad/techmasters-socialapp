@@ -1,0 +1,1011 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SocialAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="varchar" MaxLength="500" />
+          <Property Name="PostID" Type="int" />
+          <Property Name="CommentBy" Type="int" />
+        </EntityType>
+        <EntityType Name="Conversation">
+          <Key>
+            <PropertyRef Name="ConversationID" />
+          </Key>
+          <Property Name="ConversationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserFrom" Type="int" />
+          <Property Name="UserTo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FriendRequest">
+          <Key>
+            <PropertyRef Name="FriendRequestID" />
+          </Key>
+          <Property Name="FriendRequestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserProfileID" Type="int" />
+          <Property Name="RequestID" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Like">
+          <Key>
+            <PropertyRef Name="LikeID" />
+          </Key>
+          <Property Name="LikeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusID" Type="int" />
+          <Property Name="PostID" Type="int" />
+          <Property Name="LikeBy" Type="int" />
+        </EntityType>
+        <EntityType Name="LikeStatus">
+          <Key>
+            <PropertyRef Name="LikeStatusID" />
+          </Key>
+          <Property Name="LikeStatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="NotificationID" />
+          </Key>
+          <Property Name="NotificationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserProfileID" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="Link" Type="varchar" MaxLength="500" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="OrganizationID" />
+          </Key>
+          <Property Name="OrganizationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogoPath" Type="varchar" MaxLength="500" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PostContent" Type="varchar(max)" />
+          <Property Name="PostFrom" Type="int" />
+          <Property Name="PostTo" Type="int" />
+        </EntityType>
+        <EntityType Name="UserFriend">
+          <Key>
+            <PropertyRef Name="UserFriendID" />
+          </Key>
+          <Property Name="UserFriendID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserProfileID" Type="int" />
+          <Property Name="FriendID" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserMessage">
+          <Key>
+            <PropertyRef Name="UserMessageID" />
+          </Key>
+          <Property Name="UserMessageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Message" Type="varchar" MaxLength="1000" />
+          <Property Name="MessageFrom" Type="int" />
+          <Property Name="MessageTo" Type="int" />
+          <Property Name="ConversationID" Type="int" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserProfileID" />
+          </Key>
+          <Property Name="UserProfileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" />
+          <Property Name="OrganizationID" Type="int" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="Gender" Type="varchar" MaxLength="50" />
+          <Property Name="DOB" Type="datetime" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="ProfilePicPath" Type="varchar" MaxLength="500" />
+          <Property Name="Address" Type="varchar(max)" />
+          <Property Name="PhoneNo" Type="varchar" MaxLength="50" />
+          <Property Name="Country" Type="varchar" MaxLength="100" />
+          <Property Name="City" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Comment_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="CommentBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conversation_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="Conversation" Type="Self.Conversation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Conversation">
+              <PropertyRef Name="UserFrom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conversation_UserProfile1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="Conversation" Type="Self.Conversation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Conversation">
+              <PropertyRef Name="UserTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FriendRequest_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="FriendRequest" Type="Self.FriendRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="FriendRequest">
+              <PropertyRef Name="UserProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FriendRequest_UserProfile1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="FriendRequest" Type="Self.FriendRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="FriendRequest">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Like_LikeStatus">
+          <End Role="LikeStatus" Type="Self.LikeStatus" Multiplicity="0..1" />
+          <End Role="Like" Type="Self.Like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LikeStatus">
+              <PropertyRef Name="LikeStatusID" />
+            </Principal>
+            <Dependent Role="Like">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Like_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Like" Type="Self.Like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="Like">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Like_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="Like" Type="Self.Like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Like">
+              <PropertyRef Name="LikeBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notification_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="UserProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="PostFrom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_UserProfile1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="PostTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFriend_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="UserFriend" Type="Self.UserFriend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="UserFriend">
+              <PropertyRef Name="UserProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFriend_UserProfile1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="UserFriend" Type="Self.UserFriend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="UserFriend">
+              <PropertyRef Name="FriendID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMessage_Conversation">
+          <End Role="Conversation" Type="Self.Conversation" Multiplicity="0..1" />
+          <End Role="UserMessage" Type="Self.UserMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="ConversationID" />
+            </Principal>
+            <Dependent Role="UserMessage">
+              <PropertyRef Name="ConversationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMessage_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="UserMessage" Type="Self.UserMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="UserMessage">
+              <PropertyRef Name="MessageFrom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMessage_UserProfile1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="UserMessage" Type="Self.UserMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="UserMessage">
+              <PropertyRef Name="MessageTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfile_Organization">
+          <End Role="Organization" Type="Self.Organization" Multiplicity="0..1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="OrganizationID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="OrganizationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SocialAppModelStoreContainer">
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Conversation" EntityType="Self.Conversation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FriendRequest" EntityType="Self.FriendRequest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Like" EntityType="Self.Like" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LikeStatus" EntityType="Self.LikeStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Organization" EntityType="Self.Organization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserFriend" EntityType="Self.UserFriend" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserMessage" EntityType="Self.UserMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Comment_Post" Association="Self.FK_Comment_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_UserProfile" Association="Self.FK_Comment_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conversation_UserProfile" Association="Self.FK_Conversation_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Conversation" EntitySet="Conversation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conversation_UserProfile1" Association="Self.FK_Conversation_UserProfile1">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Conversation" EntitySet="Conversation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FriendRequest_UserProfile" Association="Self.FK_FriendRequest_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="FriendRequest" EntitySet="FriendRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FriendRequest_UserProfile1" Association="Self.FK_FriendRequest_UserProfile1">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="FriendRequest" EntitySet="FriendRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Like_LikeStatus" Association="Self.FK_Like_LikeStatus">
+            <End Role="LikeStatus" EntitySet="LikeStatus" />
+            <End Role="Like" EntitySet="Like" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Like_Post" Association="Self.FK_Like_Post">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="Like" EntitySet="Like" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Like_UserProfile" Association="Self.FK_Like_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Like" EntitySet="Like" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notification_UserProfile" Association="Self.FK_Notification_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Notification" EntitySet="Notification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_UserProfile" Association="Self.FK_Post_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_UserProfile1" Association="Self.FK_Post_UserProfile1">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFriend_UserProfile" Association="Self.FK_UserFriend_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UserFriend" EntitySet="UserFriend" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFriend_UserProfile1" Association="Self.FK_UserFriend_UserProfile1">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UserFriend" EntitySet="UserFriend" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserMessage_Conversation" Association="Self.FK_UserMessage_Conversation">
+            <End Role="Conversation" EntitySet="Conversation" />
+            <End Role="UserMessage" EntitySet="UserMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserMessage_UserProfile" Association="Self.FK_UserMessage_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UserMessage" EntitySet="UserMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserMessage_UserProfile1" Association="Self.FK_UserMessage_UserProfile1">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UserMessage" EntitySet="UserMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_Organization" Association="Self.FK_UserProfile_Organization">
+            <End Role="Organization" EntitySet="Organization" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SocialAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PostID" Type="Int32" />
+          <Property Name="CommentBy" Type="Int32" />
+          <NavigationProperty Name="Post" Relationship="Self.FK_Comment_Post" FromRole="Comment" ToRole="Post" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK_Comment_UserProfile" FromRole="Comment" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="Conversation">
+          <Key>
+            <PropertyRef Name="ConversationID" />
+          </Key>
+          <Property Name="ConversationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserFrom" Type="Int32" />
+          <Property Name="UserTo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK_Conversation_UserProfile" FromRole="Conversation" ToRole="UserProfile" />
+          <NavigationProperty Name="UserProfile1" Relationship="Self.FK_Conversation_UserProfile1" FromRole="Conversation" ToRole="UserProfile" />
+          <NavigationProperty Name="UserMessages" Relationship="Self.FK_UserMessage_Conversation" FromRole="Conversation" ToRole="UserMessage" />
+        </EntityType>
+        <EntityType Name="FriendRequest">
+          <Key>
+            <PropertyRef Name="FriendRequestID" />
+          </Key>
+          <Property Name="FriendRequestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserProfileID" Type="Int32" />
+          <Property Name="RequestID" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK_FriendRequest_UserProfile" FromRole="FriendRequest" ToRole="UserProfile" />
+          <NavigationProperty Name="UserProfile1" Relationship="Self.FK_FriendRequest_UserProfile1" FromRole="FriendRequest" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="Like">
+          <Key>
+            <PropertyRef Name="LikeID" />
+          </Key>
+          <Property Name="LikeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusID" Type="Int32" />
+          <Property Name="PostID" Type="Int32" />
+          <Property Name="LikeBy" Type="Int32" />
+          <NavigationProperty Name="LikeStatu" Relationship="Self.FK_Like_LikeStatus" FromRole="Like" ToRole="LikeStatus" />
+          <NavigationProperty Name="Post" Relationship="Self.FK_Like_Post" FromRole="Like" ToRole="Post" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK_Like_UserProfile" FromRole="Like" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="LikeStatu">
+          <Key>
+            <PropertyRef Name="LikeStatusID" />
+          </Key>
+          <Property Name="LikeStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Likes" Relationship="Self.FK_Like_LikeStatus" FromRole="LikeStatus" ToRole="Like" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="NotificationID" />
+          </Key>
+          <Property Name="NotificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserProfileID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Link" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK_Notification_UserProfile" FromRole="Notification" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="OrganizationID" />
+          </Key>
+          <Property Name="OrganizationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogoPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserProfiles" Relationship="Self.FK_UserProfile_Organization" FromRole="Organization" ToRole="UserProfile" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PostFrom" Type="Int32" />
+          <Property Name="PostTo" Type="Int32" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_Post" FromRole="Post" ToRole="Comment" />
+          <NavigationProperty Name="Likes" Relationship="Self.FK_Like_Post" FromRole="Post" ToRole="Like" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK_Post_UserProfile" FromRole="Post" ToRole="UserProfile" />
+          <NavigationProperty Name="UserProfile1" Relationship="Self.FK_Post_UserProfile1" FromRole="Post" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="UserFriend">
+          <Key>
+            <PropertyRef Name="UserFriendID" />
+          </Key>
+          <Property Name="UserFriendID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserProfileID" Type="Int32" />
+          <Property Name="FriendID" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK_UserFriend_UserProfile" FromRole="UserFriend" ToRole="UserProfile" />
+          <NavigationProperty Name="UserProfile1" Relationship="Self.FK_UserFriend_UserProfile1" FromRole="UserFriend" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="UserMessage">
+          <Key>
+            <PropertyRef Name="UserMessageID" />
+          </Key>
+          <Property Name="UserMessageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Message" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="MessageFrom" Type="Int32" />
+          <Property Name="MessageTo" Type="Int32" />
+          <Property Name="ConversationID" Type="Int32" />
+          <NavigationProperty Name="Conversation" Relationship="Self.FK_UserMessage_Conversation" FromRole="UserMessage" ToRole="Conversation" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK_UserMessage_UserProfile" FromRole="UserMessage" ToRole="UserProfile" />
+          <NavigationProperty Name="UserProfile1" Relationship="Self.FK_UserMessage_UserProfile1" FromRole="UserMessage" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserProfileID" />
+          </Key>
+          <Property Name="UserProfileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="OrganizationID" Type="Int32" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DOB" Type="DateTime" Precision="3" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ProfilePicPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_UserProfile" FromRole="UserProfile" ToRole="Comment" />
+          <NavigationProperty Name="Conversations" Relationship="Self.FK_Conversation_UserProfile" FromRole="UserProfile" ToRole="Conversation" />
+          <NavigationProperty Name="Conversations1" Relationship="Self.FK_Conversation_UserProfile1" FromRole="UserProfile" ToRole="Conversation" />
+          <NavigationProperty Name="FriendRequests" Relationship="Self.FK_FriendRequest_UserProfile" FromRole="UserProfile" ToRole="FriendRequest" />
+          <NavigationProperty Name="FriendRequests1" Relationship="Self.FK_FriendRequest_UserProfile1" FromRole="UserProfile" ToRole="FriendRequest" />
+          <NavigationProperty Name="Likes" Relationship="Self.FK_Like_UserProfile" FromRole="UserProfile" ToRole="Like" />
+          <NavigationProperty Name="Notifications" Relationship="Self.FK_Notification_UserProfile" FromRole="UserProfile" ToRole="Notification" />
+          <NavigationProperty Name="Organization" Relationship="Self.FK_UserProfile_Organization" FromRole="UserProfile" ToRole="Organization" />
+          <NavigationProperty Name="Posts" Relationship="Self.FK_Post_UserProfile" FromRole="UserProfile" ToRole="Post" />
+          <NavigationProperty Name="Posts1" Relationship="Self.FK_Post_UserProfile1" FromRole="UserProfile" ToRole="Post" />
+          <NavigationProperty Name="UserFriends" Relationship="Self.FK_UserFriend_UserProfile" FromRole="UserProfile" ToRole="UserFriend" />
+          <NavigationProperty Name="UserFriends1" Relationship="Self.FK_UserFriend_UserProfile1" FromRole="UserProfile" ToRole="UserFriend" />
+          <NavigationProperty Name="UserMessages" Relationship="Self.FK_UserMessage_UserProfile" FromRole="UserProfile" ToRole="UserMessage" />
+          <NavigationProperty Name="UserMessages1" Relationship="Self.FK_UserMessage_UserProfile1" FromRole="UserProfile" ToRole="UserMessage" />
+        </EntityType>
+        <Association Name="FK_Comment_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="CommentBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conversation_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="Conversation" Type="Self.Conversation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Conversation">
+              <PropertyRef Name="UserFrom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conversation_UserProfile1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="Conversation" Type="Self.Conversation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Conversation">
+              <PropertyRef Name="UserTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMessage_Conversation">
+          <End Role="Conversation" Type="Self.Conversation" Multiplicity="0..1" />
+          <End Role="UserMessage" Type="Self.UserMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conversation">
+              <PropertyRef Name="ConversationID" />
+            </Principal>
+            <Dependent Role="UserMessage">
+              <PropertyRef Name="ConversationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FriendRequest_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="FriendRequest" Type="Self.FriendRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="FriendRequest">
+              <PropertyRef Name="UserProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FriendRequest_UserProfile1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="FriendRequest" Type="Self.FriendRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="FriendRequest">
+              <PropertyRef Name="RequestID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Like_LikeStatus">
+          <End Role="LikeStatus" Type="Self.LikeStatu" Multiplicity="0..1" />
+          <End Role="Like" Type="Self.Like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LikeStatus">
+              <PropertyRef Name="LikeStatusID" />
+            </Principal>
+            <Dependent Role="Like">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Like_Post">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="Like" Type="Self.Like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="Like">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Like_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="Like" Type="Self.Like" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Like">
+              <PropertyRef Name="LikeBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notification_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="UserProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfile_Organization">
+          <End Role="Organization" Type="Self.Organization" Multiplicity="0..1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organization">
+              <PropertyRef Name="OrganizationID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="OrganizationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="PostFrom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_UserProfile1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="PostTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFriend_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="UserFriend" Type="Self.UserFriend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="UserFriend">
+              <PropertyRef Name="UserProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFriend_UserProfile1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="UserFriend" Type="Self.UserFriend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="UserFriend">
+              <PropertyRef Name="FriendID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMessage_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="UserMessage" Type="Self.UserMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="UserMessage">
+              <PropertyRef Name="MessageFrom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserMessage_UserProfile1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="UserMessage" Type="Self.UserMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserProfileID" />
+            </Principal>
+            <Dependent Role="UserMessage">
+              <PropertyRef Name="MessageTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SocialAppEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Comments" EntityType="Self.Comment" />
+          <EntitySet Name="Conversations" EntityType="Self.Conversation" />
+          <EntitySet Name="FriendRequests" EntityType="Self.FriendRequest" />
+          <EntitySet Name="Likes" EntityType="Self.Like" />
+          <EntitySet Name="LikeStatus" EntityType="Self.LikeStatu" />
+          <EntitySet Name="Notifications" EntityType="Self.Notification" />
+          <EntitySet Name="Organizations" EntityType="Self.Organization" />
+          <EntitySet Name="Posts" EntityType="Self.Post" />
+          <EntitySet Name="UserFriends" EntityType="Self.UserFriend" />
+          <EntitySet Name="UserMessages" EntityType="Self.UserMessage" />
+          <EntitySet Name="UserProfiles" EntityType="Self.UserProfile" />
+          <AssociationSet Name="FK_Comment_Post" Association="Self.FK_Comment_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_UserProfile" Association="Self.FK_Comment_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conversation_UserProfile" Association="Self.FK_Conversation_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="Conversation" EntitySet="Conversations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conversation_UserProfile1" Association="Self.FK_Conversation_UserProfile1">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="Conversation" EntitySet="Conversations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserMessage_Conversation" Association="Self.FK_UserMessage_Conversation">
+            <End Role="Conversation" EntitySet="Conversations" />
+            <End Role="UserMessage" EntitySet="UserMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FriendRequest_UserProfile" Association="Self.FK_FriendRequest_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="FriendRequest" EntitySet="FriendRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FriendRequest_UserProfile1" Association="Self.FK_FriendRequest_UserProfile1">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="FriendRequest" EntitySet="FriendRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Like_LikeStatus" Association="Self.FK_Like_LikeStatus">
+            <End Role="LikeStatus" EntitySet="LikeStatus" />
+            <End Role="Like" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Like_Post" Association="Self.FK_Like_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Like" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Like_UserProfile" Association="Self.FK_Like_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="Like" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notification_UserProfile" Association="Self.FK_Notification_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_Organization" Association="Self.FK_UserProfile_Organization">
+            <End Role="Organization" EntitySet="Organizations" />
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_UserProfile" Association="Self.FK_Post_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_UserProfile1" Association="Self.FK_Post_UserProfile1">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFriend_UserProfile" Association="Self.FK_UserFriend_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="UserFriend" EntitySet="UserFriends" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFriend_UserProfile1" Association="Self.FK_UserFriend_UserProfile1">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="UserFriend" EntitySet="UserFriends" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserMessage_UserProfile" Association="Self.FK_UserMessage_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="UserMessage" EntitySet="UserMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserMessage_UserProfile1" Association="Self.FK_UserMessage_UserProfile1">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="UserMessage" EntitySet="UserMessages" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SocialAppModelStoreContainer" CdmEntityContainer="SocialAppEntities">
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="SocialAppModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="CommentBy" ColumnName="CommentBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conversations">
+            <EntityTypeMapping TypeName="SocialAppModel.Conversation">
+              <MappingFragment StoreEntitySet="Conversation">
+                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
+                <ScalarProperty Name="UserFrom" ColumnName="UserFrom" />
+                <ScalarProperty Name="UserTo" ColumnName="UserTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FriendRequests">
+            <EntityTypeMapping TypeName="SocialAppModel.FriendRequest">
+              <MappingFragment StoreEntitySet="FriendRequest">
+                <ScalarProperty Name="FriendRequestID" ColumnName="FriendRequestID" />
+                <ScalarProperty Name="UserProfileID" ColumnName="UserProfileID" />
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Likes">
+            <EntityTypeMapping TypeName="SocialAppModel.Like">
+              <MappingFragment StoreEntitySet="Like">
+                <ScalarProperty Name="LikeID" ColumnName="LikeID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="LikeBy" ColumnName="LikeBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LikeStatus">
+            <EntityTypeMapping TypeName="SocialAppModel.LikeStatu">
+              <MappingFragment StoreEntitySet="LikeStatus">
+                <ScalarProperty Name="LikeStatusID" ColumnName="LikeStatusID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="SocialAppModel.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+                <ScalarProperty Name="UserProfileID" ColumnName="UserProfileID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Organizations">
+            <EntityTypeMapping TypeName="SocialAppModel.Organization">
+              <MappingFragment StoreEntitySet="Organization">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+                <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="SocialAppModel.Post">
+              <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="PostContent" ColumnName="PostContent" />
+                <ScalarProperty Name="PostFrom" ColumnName="PostFrom" />
+                <ScalarProperty Name="PostTo" ColumnName="PostTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserFriends">
+            <EntityTypeMapping TypeName="SocialAppModel.UserFriend">
+              <MappingFragment StoreEntitySet="UserFriend">
+                <ScalarProperty Name="UserFriendID" ColumnName="UserFriendID" />
+                <ScalarProperty Name="UserProfileID" ColumnName="UserProfileID" />
+                <ScalarProperty Name="FriendID" ColumnName="FriendID" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserMessages">
+            <EntityTypeMapping TypeName="SocialAppModel.UserMessage">
+              <MappingFragment StoreEntitySet="UserMessage">
+                <ScalarProperty Name="UserMessageID" ColumnName="UserMessageID" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="MessageFrom" ColumnName="MessageFrom" />
+                <ScalarProperty Name="MessageTo" ColumnName="MessageTo" />
+                <ScalarProperty Name="ConversationID" ColumnName="ConversationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfiles">
+            <EntityTypeMapping TypeName="SocialAppModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="UserProfileID" ColumnName="UserProfileID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="ProfilePicPath" ColumnName="ProfilePicPath" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
