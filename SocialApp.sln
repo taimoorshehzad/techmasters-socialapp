@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialApp.DB", "SocialApp.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialApp.Repository", "SocailApp.Repository\SocialApp.Repository.csproj", "{8D877B3B-F2D7-482B-A3A0-C90D04786F8F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialApp.BL", "SocialApp.BL\SocialApp.BL.csproj", "{4D8F22B5-FFF6-4E09-978F-C712E14D3D81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{8D877B3B-F2D7-482B-A3A0-C90D04786F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D877B3B-F2D7-482B-A3A0-C90D04786F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D877B3B-F2D7-482B-A3A0-C90D04786F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D8F22B5-FFF6-4E09-978F-C712E14D3D81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D8F22B5-FFF6-4E09-978F-C712E14D3D81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D8F22B5-FFF6-4E09-978F-C712E14D3D81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D8F22B5-FFF6-4E09-978F-C712E14D3D81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
