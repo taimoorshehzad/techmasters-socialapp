@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8D877B3B-F2D7-482B-A3A0-C90D04786F8F}</ProjectGuid>
+    <ProjectGuid>{4D8F22B5-FFF6-4E09-978F-C712E14D3D81}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SocailApp.Repository</RootNamespace>
-    <AssemblyName>SocailApp.Repository</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>SocialApp.BL</RootNamespace>
+    <AssemblyName>SocialApp.BL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -30,7 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,17 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IUserProfileRepository.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserProfileRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocialApp.DB\SocialApp.DB.csproj">
-      <Project>{260bb484-28e3-4d30-86ad-4581e4ee05fa}</Project>
-      <Name>SocialApp.DB</Name>
+    <ProjectReference Include="..\SocailApp.Repository\SocialApp.Repository.csproj">
+      <Project>{8d877b3b-f2d7-482b-a3a0-c90d04786f8f}</Project>
+      <Name>SocialApp.Repository</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\SocialApp.DB\SocialApp.DB.csproj">
       <Project>{260bb484-28e3-4d30-86ad-4581e4ee05fa}</Project>
       <Name>SocialApp.DB</Name>
