@@ -1,0 +1,44 @@
+﻿@model List<SocialApp.DB.ViewModel.OrganizationUsersViewModel>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<br />
+<br />
+@using (Html.BeginForm())
+{
+    @*foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-md-3">@item.OrganizationName</div>
+            <div class="col-md-3">@item.UsersCount</div>
+
+        </div>
+    }*@
+    @*<div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1><strong>Bootstrap - Microsoft Metro Tiles</strong></h1>
+            </div>
+        </div>*@
+        foreach (var item in Model)
+        {
+        <div class="row">
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail tile tile-medium tile-teal">
+                    <a href="#">
+                        <h1>@item.OrganizationName</h1>
+                        <h1>@item.UsersCount</h1>
+
+                    </a>
+                </div>
+            </div>
+            </div>
+        
+    }
+}
+
+
+
+
