@@ -4,53 +4,39 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
 
 namespace SocialApp.DB.ViewModel
 {
-    public class UserProfileViewModel
+    public class ProfileViewModel
     {
         public string UserID { get; set; }
-        [Required]
-        [Display(Name = "Organization")]
-        public int SelectedOrganization { get; set; }
-
-        [Required]
-        [Display(Name = "Profile Photo")]
-        public HttpPostedFileBase ProfilePhoto { get; set; }
-
-        [Required]
+        public int OrganizationID { get; set; }
+        
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required]
         [Display(Name = "Gender")]
         public string Gender { get; set; }
 
-        [Required]
         [Display(Name = "DOB")]
-        public DateTime DOB { get; set; }
+        public DateTime? DOB { get; set; }
 
-        [Required]
+        [Display(Name = "Profile Photo")]
+        public string ProfilePicPath { get; set; }
+
         [Display(Name = "Address")]
         public string Address { get; set; }
 
-        [Required]
-        [Display(Name = "Mobile") , Phone]
+        [Display(Name = "Mobile")]
         public string MobileNO { get; set; }
 
-        [Required]
         [Display(Name = "Country")]
         public string Country { get; set; }
-
-        [Required]
+        
         [Display(Name = "City")]
-        public string  City { get; set; }
-
+        public string City { get; set; }
     }
 }

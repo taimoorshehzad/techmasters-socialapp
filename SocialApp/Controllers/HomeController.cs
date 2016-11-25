@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using SocailApp.Repository;
 using SocialApp.DB.Model;
 using System.IO;
+using SocialApp.BL;
 
 namespace SocialApp.Controllers
 {
@@ -32,32 +32,30 @@ namespace SocialApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult UserProfile()
+        [Authorize(Roles ="User")]
+        public ActionResult UserProfile(string Id)
         {
+            OrganizationBL organizationBL = new OrganizationBL();
+            IEnumerable<SelectListItem> organization = organizationBL.OrganizationDropdown();
+            ViewBag.UserId = Id;
+            ViewBag.Organizations = organization;
             return View();
         }
 
         [HttpPost]
-        public ActionResult UserProfile(UserProfileViewModel viewModel  , HttpPostedFileBase profilePhoto)
+        public ActionResult UserProfile(UserProfileViewModel viewModel)
         {
-            var fileName = Path.GetFileName(profilePhoto.FileName);
-            var path = Path.Combine(Server.MapPath("~/Content/User/Profile/Images/"), fileName);
-            profilePhoto.SaveAs(path);
-            IUserProfileRepository repo = new UserProfileRepository();
-            UserProfile user = new UserProfile();
-            user.FirstName = viewModel.FirstName;
-            user.LastName = viewModel.LastName;
-            user.Address = viewModel.Address;
-            user.Gender = viewModel.Gender;
-            user.Country = viewModel.Country;
-            user.City = viewModel.City;
-            user.PhoneNo = viewModel.MobileNO;
-            user.DOB = viewModel.DOB;
-
-            repo.Insert(user);
-            return View();
+            var userProfileBL = new UserProfileBL();
+            userProfileBL.UserProfileInsert(viewModel);
+            int? orgID = viewModel.SelectedOrganization;
+            return RedirectToAction("Profile" , new { UserId = viewModel.UserID , orgID});
         }
-
-
+        [Authorize(Roles ="User")]
+        public ActionResult Profile(string userID , int? orgID)
+        {
+            UserProfileBL BL = new UserProfileBL();
+            var profile = BL.GetProfileByUserAndOrganization(userID, orgID);
+            return View(profile);
+        }   
     }
 }

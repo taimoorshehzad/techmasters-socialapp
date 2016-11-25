@@ -11,5 +11,6 @@ namespace SocailApp.Repository
     public interface IUserProfileRepository
     {
         void Insert(UserProfile user);
+        List<UserProfile> Get();
     }
 }

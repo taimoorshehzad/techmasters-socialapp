@@ -1,0 +1,67 @@
+﻿@using SocialApp.DB.ViewModel
+@model  ProfileViewModel
+
+@{
+    ViewBag.Title = "Your Profile";
+}
+
+<h2>Your Profile</h2>
+<div class="row">
+    <div class="col-sm-2 h4">
+        @Html.DisplayNameFor(model => model.ProfilePicPath)
+    </div>
+    <div class="col-sm-1 h4">
+        @Html.DisplayNameFor(model => model.FirstName)
+    </div>
+    <div class="col-sm-1 h4">
+        @Html.DisplayNameFor(model => model.LastName)
+    </div>
+    <div class="col-sm-1 h4">
+        @Html.DisplayNameFor(model => model.Gender)
+    </div>
+    <div class="col-sm-1 h4">
+        @Html.DisplayNameFor(model => model.MobileNO)
+    </div>
+    <div class="col-sm-1 h4">
+        @Html.DisplayNameFor(model => model.Address)
+    </div>
+    <div class="col-sm-1 h4">
+        @Html.DisplayNameFor(model => model.DOB)
+    </div>
+    <div class="col-sm-1 h4">
+        @Html.DisplayNameFor(model => model.Country)
+    </div>
+    <div class="col-sm-1 h4">
+        @Html.DisplayNameFor(model => model.City)
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2 text-center">
+        <img class="img-circle" src="~/Content/User/Profile/Images/@Model.ProfilePicPath" height="100" />
+    </div>
+    <div class="col-sm-1 text-center">
+        @Html.DisplayFor(model => model.FirstName)
+    </div>
+    <div class="col-sm-1 text-center">
+        @Html.DisplayFor(model => model.LastName)
+    </div>
+    <div class="col-sm-1 text-center">
+        @Html.DisplayFor(model => model.Gender)
+    </div>
+    <div class="col-sm-1 text-center">
+        @Html.DisplayFor(model => model.MobileNO)
+    </div>
+    <div class="col-sm-1 text-center">
+        @Html.DisplayFor(model => model.Address)
+    </div>
+    <div class="col-sm-1 text-center">
+        @Html.DisplayFor(model => model.DOB)
+
+    </div>
+    <div class="col-sm-1 text-center">
+        @Html.DisplayFor(model => model.Country)
+    </div>
+    <div class="col-sm-1 text-center">
+        @Html.DisplayFor(model => model.City)
+    </div>
+</div>

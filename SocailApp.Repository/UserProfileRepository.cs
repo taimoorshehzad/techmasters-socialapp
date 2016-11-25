@@ -21,5 +21,9 @@ namespace SocailApp.Repository
             _context.UserProfiles.Add(user);
             _context.SaveChanges();
         }
+        public List<UserProfile> Get()
+        {
+            return _context.UserProfiles.ToList();
+        }
     }
 }
