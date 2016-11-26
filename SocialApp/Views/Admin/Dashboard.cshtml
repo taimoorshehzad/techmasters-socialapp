@@ -6,39 +6,26 @@
 
 <br />
 <br />
-@using (Html.BeginForm())
-{
-    @*foreach (var item in Model)
-    {
-        <div class="row">
-            <div class="col-md-3">@item.OrganizationName</div>
-            <div class="col-md-3">@item.UsersCount</div>
 
-        </div>
-    }*@
-    @*<div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1><strong>Bootstrap - Microsoft Metro Tiles</strong></h1>
-            </div>
-        </div>*@
-        foreach (var item in Model)
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
         {
-        <div class="row">
-            <div class="col-sm-6 col-md-3">
-                <div class="thumbnail tile tile-medium tile-teal">
-                    <a href="#">
-                        <h1>@item.OrganizationName</h1>
-                        <h1>@item.UsersCount</h1>
 
+            <div class="col-md-3">
+                <div class="well bg-danger">
+                    <a class="">
+                        <span class="bg-danger"></span>
+
+                        <span>@item.OrganizationName </span>
+                        <span class="pull-right">@item.UsersCount</span>
                     </a>
                 </div>
             </div>
-            </div>
-        
-    }
-}
 
+        }
+    </div>
+</div>
 
 
 

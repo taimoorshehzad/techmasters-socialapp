@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace SocailApp.Repository
 {
-    public interface IUserprofileRepository
+    public interface IUserProfileRepository
     {
         IEnumerable<UserProfile> Get();
+
+        void Insert(UserProfile user);
     }
 }

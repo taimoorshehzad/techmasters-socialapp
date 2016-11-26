@@ -102,8 +102,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\AddOrganizationViewModel.cs" />
     <Compile Include="ViewModel\OrganizationUsersViewModel.cs" />
+    <Compile Include="ViewModel\UserProfileViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EntityDeploy Include="Model\SocialApp.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -111,7 +111,9 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DBBak\SocialApp.bak" />
     <None Include="Model\SocialApp.edmx.diagram">
       <DependentUpon>SocialApp.edmx</DependentUpon>
