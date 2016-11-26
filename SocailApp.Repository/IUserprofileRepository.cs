@@ -12,6 +12,6 @@ namespace SocailApp.Repository
         IEnumerable<UserProfile> Get();
 
         void Insert(UserProfile user);
-        List<UserProfile> Get();
+
     }
 }

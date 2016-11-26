@@ -37,9 +37,15 @@ namespace SocialApp.Controllers
         public ActionResult UserProfile(string Id)
         {
             OrganizationBL organizationBL = new OrganizationBL();
-            IEnumerable<SelectListItem> organization = organizationBL.OrganizationDropdown();
+            var organization = organizationBL.GetOrganizationsSelectList();
+
+            var collection = organization.Select(s => new
+            {
+                Name = s.Name,
+                ID = s.OrganizationID
+            }).ToList();
             ViewBag.UserId = Id;
-            ViewBag.Organizations = organization;
+            ViewBag.Organizations = new SelectList(collection, "ID", "Name");
             return View();
         }
 

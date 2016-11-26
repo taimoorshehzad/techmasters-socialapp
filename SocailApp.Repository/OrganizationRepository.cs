@@ -4,21 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SocialApp.DB.Model;
-using System.Web.Mvc;
 
 namespace SocailApp.Repository
 {
     public class OrganizationRepository : IOrganizationRepository
     {
-        private SocialAppEntities _Context;
-
+        private readonly SocialAppEntities _context;
         public OrganizationRepository()
         {
-            _Context = new SocialAppEntities();  
+            _context = new SocialAppEntities();
         }
         public IEnumerable<Organization> Get()
         {
-            return _Context.Organizations.ToList();
+            var oraganization = _context.Organizations.ToList();
+            return oraganization;
         }
     }
 }
