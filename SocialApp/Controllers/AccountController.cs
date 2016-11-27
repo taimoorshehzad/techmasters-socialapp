@@ -79,8 +79,11 @@ namespace SocialApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    // return RedirectToLocal(returnUrl);
-                    return RedirectToAction("Dashboard","Admin");
+                    if (model.Email == "admin@admin.com")
+                    {
+                        return RedirectToAction("Dashboard", "Admin");
+                    }
+                    return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

@@ -198,6 +198,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\female.png" />
+    <Content Include="Content\Images\male.png" />
     <Content Include="Content\User\Profile\Images\boy-512.png" />
     <Content Include="Content\User\Profile\Images\girl-512.png" />
     <Content Include="favicon.ico" />
@@ -273,6 +275,7 @@
     <Content Include="Views\Admin\Dashboard.cshtml" />
     <Content Include="Views\Home\UserProfile.cshtml" />
     <Content Include="Views\Home\Profile.cshtml" />
+    <Content Include="Views\Shared\_UserLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
