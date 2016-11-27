@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Organization</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>Manage your organization settings.</h4>
+        
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <a href="@Url.Action("CreateOrganization", "Admin")" class="btn btn-info"> <span class="glyphicon glyphicon-plus"></span> Add Organization </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <hr />
+        <h4>Organizations List</h4>
+        
+    </div>
+    @Html.Partial("_OrganizationList")
+</div>

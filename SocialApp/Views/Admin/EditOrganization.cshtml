@@ -1,13 +1,10 @@
 ﻿@using SocialApp.DB.ViewModel
-@model AddOrganizationViewModel
+@model EditOrganizationViewModel
 @{
-    ViewBag.Title = "CreateOrganization";
+    ViewBag.Title = "EditOrganization";
 }
 
 <h2>Create Organization</h2>
-<div class="row">
-    <h3 class="text-center text-info">@ViewBag.StatusMessage </h3>
-</div>
 <div class="row">
     <div class="col-md-12">
         <h4>Add Organization Details.</h4>
@@ -16,9 +13,10 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        @using (Html.BeginForm("CreateOrganization", "Admin", FormMethod.Post, new { enctype = "multipart/form-data",  @class = "form-horizontal", role = "form" }))
-        {
+        @using (Html.BeginForm("EditOrganization", "Admin", FormMethod.Post, new {enctype = "Multipart/form-data", @class = "form-horizontal", role = "form" }))
+            {
             @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.OrganizationID)
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
                     @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
@@ -30,14 +28,14 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.LogoPath, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
-                        @*@Html.EditorFor(m => m.LogoPath, new { htmlAttributes = new { @class = "form-control" } })*@
-                        <input type="file" id="LogoPath" name="LogoPath" class="form-control" />
-                        @*@html.validationmessagefor(m => m.logopath, "", new { @class = "text-danger" })*@
+                        @*@Html.EditorFor(m => m.LogoPath, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(m => m.LogoPath, "", new { @class = "text-danger" })*@
+                        <input type="file" name="LogoPath" id="LogoPath" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Add" class="btn btn-primary" />
+                        <input type="submit" value="Edit" class="btn btn-primary" />
                         <a href="@Url.Action("","Admin")" class="btn btn-default">Cancel</a>
                     </div>
                 </div>

@@ -37,7 +37,7 @@ namespace SocialApp.Controllers
         public ActionResult UserProfile(string Id)
         {
             OrganizationBL organizationBL = new OrganizationBL();
-            var organization = organizationBL.GetOrganizationsSelectList();
+            var organization = organizationBL.OrganizationList();
 
             var collection = organization.Select(s => new
             {

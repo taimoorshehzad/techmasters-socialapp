@@ -1,0 +1,43 @@
+﻿@model IEnumerable<SocialApp.DB.Model.Organization>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h4> @*@Html.DisplayNameFor(model=>model.Name)*@ Organization Name </h4>
+        </div>
+        <div class="col-md-4">
+            <h4> @*@Html.DisplayNameFor(model=>model.LogoPath)*@ Organization Logo</h4>
+        </div>
+        <div class="col-md-2">
+            <h4> @*@Html.DisplayNameFor(model=>model.CreatedOn)*@ Created Date </h4>
+        </div>
+        <div class="col-md-2">
+            <h4> Actions </h4>
+        </div>
+    </div>
+
+    @foreach (var category in Model)
+    {
+        <div class="row">
+            <div class="col-md-4 ">
+                @Html.DisplayFor(cat=>category.Name)
+            </div>
+            <div class="col-md-4">
+                <img src="~/Content/organization/logo/@category.LogoPath" alt="Organization Image" class="img-responsive img-circle" height="80px" width="80px" />
+            </div>
+            <div class="col-md-2">
+                @Html.DisplayFor(cat=>category.CreatedOn)
+            </div>
+            <div class="col-md-2">
+                <a href=" @Url.Action("EditOrganization","Admin", new { id = category.OrganizationID }) "> 
+                    <span class="h4 text-primary glyphicon glyphicon-edit"></span> 
+                </a>
+               
+                <a href="@Url.Action("DeleteOrganization","Admin",new { id = category.OrganizationID })">
+                    <span class="h4 text-danger glyphicon glyphicon-remove"></span>
+                </a>
+            </div>
+        </div>
+    }
+   
+
+</div>

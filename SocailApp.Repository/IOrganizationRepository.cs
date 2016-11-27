@@ -9,6 +9,11 @@ namespace SocailApp.Repository
 {
     public interface IOrganizationRepository
     {
-         IEnumerable<Organization> Get();
+        void Create(Organization Entity);
+        IEnumerable<Organization> Retrive();
+        void Update(Organization Entity);
+        void Delete(int? id);
+
+        Organization GetById(int? id);
     }
 }

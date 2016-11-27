@@ -18,7 +18,7 @@ namespace SocialApp.BL
 
             List<OrganizationUsersViewModel> viewModelList = new List<OrganizationUsersViewModel>();
 
-            var organizations = organizationRepository.Get();
+            var organizations = organizationRepository.Retrive();
             foreach (var item in organizations)
             {
                 OrganizationUsersViewModel viewModel = new OrganizationUsersViewModel();
