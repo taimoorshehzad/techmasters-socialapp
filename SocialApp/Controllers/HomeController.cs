@@ -11,7 +11,7 @@ using SocialApp.BL;
 
 namespace SocialApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
@@ -28,7 +28,10 @@ namespace SocialApp.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
+            //ProfileViewModel UserData = new ProfileViewModel();
+            //UserData = GetUserBasicInfo();
+            //return PartialView("~/Views/Shared/_UserLayout.cshtml", UserData);
+            //ViewBag.LayoutModel = UserData;
             return View();
         }
 
