@@ -21,10 +21,12 @@ namespace SocialApp.Controllers
             //var loginUserId = HttpContext.User.Identity.GetUserId();
 
             var loginUserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            ProfileViewModel UserData = new ProfileViewModel();
-            UserData = _UserManager.GetProfileByUserId(loginUserId);
-            ViewBag.LayoutModel = UserData;
-
+            if (loginUserId != null)
+            {
+                ProfileViewModel UserData = new ProfileViewModel();
+                UserData = _UserManager.GetProfileByUserID(loginUserId);
+                ViewBag.LayoutModel = UserData;
+            }
         }
     }
 }

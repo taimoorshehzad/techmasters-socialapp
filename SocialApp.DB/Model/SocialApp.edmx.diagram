@@ -34,6 +34,12 @@
         <AssociationConnector Association="SocialAppModel.FK_UserFriend_UserProfile1" ManuallyRouted="false" />
         <AssociationConnector Association="SocialAppModel.FK_UserMessage_UserProfile" ManuallyRouted="false" />
         <AssociationConnector Association="SocialAppModel.FK_UserMessage_UserProfile1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SocialAppModel.City" Width="1.5" PointX="0.75" PointY="8.375" />
+        <EntityTypeShape EntityType="SocialAppModel.Country" Width="1.5" PointX="0.75" PointY="2.5" />
+        <EntityTypeShape EntityType="SocialAppModel.State" Width="1.5" PointX="0.75" PointY="5.375" />
+        <AssociationConnector Association="SocialAppModel.FK_City_State" />
+        <AssociationConnector Association="SocialAppModel.FK_UserProfile_City" />
+        <AssociationConnector Association="SocialAppModel.FK_State_Country" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

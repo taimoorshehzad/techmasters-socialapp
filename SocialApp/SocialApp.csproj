@@ -201,6 +201,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\female.png" />
     <Content Include="Content\Images\male.png" />
+    <Content Include="Content\Users\0b2bedc9-7dba-440d-ac11-93eea167e697\Profile\Images\boy-512.png" />
+    <Content Include="Content\Users\0b2bedc9-7dba-440d-ac11-93eea167e697\Profile\Images\girl-512.png" />
+    <Content Include="Content\Users\4ae31ca7-6f2c-42fc-b2ea-eeb2d39373c2\Profile\Images\boy-512.png" />
+    <Content Include="Content\Users\8c209e71-7c1e-4045-95bc-2dc9dd9e9425\Profile\Images\boy-512.png" />
+    <Content Include="Content\Users\b98830cc-f9f8-473b-b8f3-6b2ba4d95ce0\Profile\Images\boy-512.png" />
+    <Content Include="Content\Users\b98830cc-f9f8-473b-b8f3-6b2ba4d95ce0\Profile\Images\IMG_20150610_055309.jpg" />
+    <Content Include="Content\Users\Profile\Images\boy-512.png" />
     <Content Include="Content\User\Profile\Images\boy-512.png" />
     <Content Include="Content\User\Profile\Images\girl-512.png" />
     <Content Include="favicon.ico" />
@@ -223,6 +230,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -280,6 +289,10 @@
     <Content Include="Views\Admin\index.cshtml" />
     <Content Include="Views\Shared\_OrganizationList.cshtml" />
     <Content Include="Views\Shared\_UserLayout.cshtml" />
+    <Content Include="Views\Admin\DisplayProfile.cshtml" />
+    <Content Include="Views\Home\Conversation.cshtml" />
+    <Content Include="Views\Home\Message.cshtml" />
+    <Content Include="Views\Home\EditUserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

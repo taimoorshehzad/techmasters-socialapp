@@ -15,85 +15,142 @@ namespace SocialApp.BL
         public void UserProfileInsert(UserProfileViewModel viewModel)
         {
             IUserProfileRepository repo = new UserProfileRepository();
+
             UserProfile user = new UserProfile();
-            user.ProfilePicPath = "";
-            if (viewModel.ProfilePhoto != null)
-            {
-                var fileName = Path.GetFileName(viewModel.ProfilePhoto.FileName);
-                var extension = Path.GetExtension(fileName);
-                var guid = Guid.NewGuid();
-                var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/User/Profile/Images/"), (guid + extension).ToString());
-                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/User/Profile/Images/"));
-                viewModel.ProfilePhoto.SaveAs(path);
-                user.ProfilePicPath = (guid + extension).ToString();
-            }
-
-
-
+            var fileName = Path.GetFileName(viewModel.ProfilePhoto.FileName);
+            var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Users/"+ viewModel.UserID +"/Profile/Images/"), fileName);           
+            Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Users/"+ viewModel.UserID +"/Profile/Images/"));
+            viewModel.ProfilePhoto.SaveAs(path);
+            
             user.OrganizationID = viewModel.SelectedOrganization;
             user.UserID = viewModel.UserID;
             user.FirstName = viewModel.FirstName;
             user.LastName = viewModel.LastName;
             user.Address = viewModel.Address;
             user.Gender = viewModel.Gender;
-            user.Country = viewModel.Country;
-            user.City = viewModel.City;
+            user.CityID = viewModel.CityID;
             user.PhoneNo = viewModel.MobileNO;
             user.DOB = viewModel.DOB;
-
+            user.ProfilePicPath = fileName ;
+            user.ProfileCompeted = true;
             repo.Insert(user);
         }
-        public ProfileViewModel GetProfileByUserId(string userID)
+
+        public IEnumerable<Country> GetCountries()
+        {
+            ICountryRepository countryRepo = new CountryRepository();
+            return countryRepo.Get();
+        }
+        public ProfileViewModel GetProfileByUserID(string userID)
         {
             UserProfileRepository repo = new UserProfileRepository();
+            ICountryRepository countryRepo = new CountryRepository();
+            IStateRepository stateRepo = new StateRepository();
+            ICityRepository cityRepo = new CityRepository();
+
             ProfileViewModel viewModel = new ProfileViewModel();
-            var yourProfile = repo.Get().Where(s => s.UserID == userID).FirstOrDefault();
-            viewModel.FirstName = yourProfile.FirstName;
-            viewModel.LastName = yourProfile.LastName;
-            viewModel.Address = yourProfile.Address;
-            viewModel.Gender = yourProfile.Gender;
-            viewModel.MobileNO = yourProfile.PhoneNo;
-            viewModel.ProfilePicPath = "/Content/User/Profile/Images/" + yourProfile.ProfilePicPath;
-            if (yourProfile.ProfilePicPath == "")
+
+            var yourProfile = repo.Get().Where(s=> s.UserID == userID).FirstOrDefault();
+            if (yourProfile != null)
             {
-                var Boy = "boy-512.png";
-                var Girl = "girl-512.png";
-                yourProfile.ProfilePicPath = viewModel.Gender == "Male" ? Boy : Girl;
-                viewModel.ProfilePicPath = "/Content/User/Profile/Images/" + yourProfile.ProfilePicPath;
+                var city = cityRepo.Get().Where(s => s.CityID == yourProfile.CityID).FirstOrDefault();
+                var state = stateRepo.Get().Where(s => s.StateID == city.StateID).FirstOrDefault();
+                var country = countryRepo.Get().Where(s => s.CountryID == state.CountryID).FirstOrDefault();
+
+                var fileName = yourProfile.ProfilePicPath;
+                var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Users/" + userID + "/Profile/Images/"), fileName);
+
+                viewModel.UserID = userID;
+                viewModel.OrganizationID = yourProfile.OrganizationID;
+                viewModel.FirstName = yourProfile.FirstName;
+                viewModel.LastName = yourProfile.LastName;
+                viewModel.Address = yourProfile.Address;
+                viewModel.Gender = yourProfile.Gender;
+                viewModel.MobileNO = yourProfile.PhoneNo;
+                viewModel.ProfilePicPath = yourProfile.ProfilePicPath;
+                viewModel.DOB = yourProfile.DOB;
+                viewModel.City = city.CityName;
+                viewModel.State = state.StateName;
+                viewModel.Country = country.CoutnryName;
             }
-
-
-            viewModel.DOB = yourProfile.DOB;
-            viewModel.Country = yourProfile.Country;
-            viewModel.City = yourProfile.City;
             return viewModel;
         }
 
-
-        public ProfileViewModel GetProfileByUserAndOrganization(string userID, int? orgID)
+        public EditUserProfileViewModel EditUserProfile(string userID , int? orgID )
         {
-            UserProfileRepository repo = new UserProfileRepository();
-            ProfileViewModel viewModel = new ProfileViewModel();
-            var yourProfile = repo.Get().Where(s => s.UserID == userID && s.OrganizationID == orgID).FirstOrDefault();
+            IUserProfileRepository profileRepo = new UserProfileRepository();
+            ICountryRepository countryRepo = new CountryRepository();
+            IStateRepository stateRepo = new StateRepository();
+            ICityRepository cityRepo = new CityRepository();
+
+            var yourProfile = profileRepo.Get().Where(s => s.UserID == userID && s.OrganizationID == orgID).FirstOrDefault();
+            //var city = cityRepo.Get().Where(s => s.CityID == yourProfile.CityID).FirstOrDefault();
+            //var state = stateRepo.Get().Where(s => s.StateID == city.StateID).FirstOrDefault();
+            //var country = countryRepo.Get().Where(s => s.CountryID == state.CountryID).FirstOrDefault();
+
+            EditUserProfileViewModel viewModel = new EditUserProfileViewModel();
+            viewModel.UserID = userID;
+            viewModel.OrganizationID = orgID;
             viewModel.FirstName = yourProfile.FirstName;
             viewModel.LastName = yourProfile.LastName;
             viewModel.Address = yourProfile.Address;
             viewModel.Gender = yourProfile.Gender;
             viewModel.MobileNO = yourProfile.PhoneNo;
-            viewModel.ProfilePicPath = "/Content/User/Profile/Images/" + yourProfile.ProfilePicPath;
-            if (yourProfile.ProfilePicPath == "")
+            viewModel.ProfilePicPath = yourProfile.ProfilePicPath;
+            viewModel.DOB = yourProfile.DOB;
+            //viewModel.City = city.CityName;
+            //viewModel.State = state.StateName;
+            //viewModel.Country = country.CoutnryName;
+            return viewModel;
+        }
+
+        public void InsertEditedUserProfile(EditUserProfileViewModel viewModel)
+        {
+            IUserProfileRepository repo = new UserProfileRepository();
+
+            UserProfile user = new UserProfile();
+            
+            if (viewModel.ProfilePhoto != null)
             {
-                var Boy = "boy-512.png";
-                var Girl = "girl-512.png";
-                yourProfile.ProfilePicPath = viewModel.Gender == "Male" ? Boy : Girl;
-                viewModel.ProfilePicPath = "/Content/User/Profile/Images/" + yourProfile.ProfilePicPath;
+                var fileName = Path.GetFileName(viewModel.ProfilePhoto.FileName);
+                var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Users/" + viewModel.UserID +"/Profile/Images/"), fileName);
+                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Users/" + viewModel.UserID+"/Profile/Images/"));
+                viewModel.ProfilePhoto.SaveAs(path);
+                user.ProfilePicPath = fileName;
+            }
+            else
+            {
+                user.ProfilePicPath = viewModel.ProfilePicPath;
             }
 
+            user.OrganizationID = viewModel.OrganizationID;
+            user.UserID = viewModel.UserID;
+            user.FirstName = viewModel.FirstName;
+            user.LastName = viewModel.LastName;
+            user.Address = viewModel.Address;
+            user.Gender = viewModel.Gender;
+            user.CityID = viewModel.CityID;
+            user.PhoneNo = viewModel.MobileNO;
+            user.DOB = viewModel.DOB;
+            repo.Update(user);
+        }
+        public IEnumerable<State> GetStatesByCountryId(int id)
+        {
+            IStateRepository stateRepo =  new StateRepository();
+            return stateRepo.Get().Where(s=> s.CountryID == id).ToList(); 
+        }
 
-            viewModel.DOB = yourProfile.DOB;
-            viewModel.Country = yourProfile.Country;
-            viewModel.City = yourProfile.City;
-            return viewModel;
+        public IEnumerable<City> GetCitiesByStateId(int id)
+        {
+            ICityRepository cityRepo = new CityRepository();
+            return cityRepo.Get().Where(s => s.StateID == id).ToList();
+        }
+
+        public bool? IsProfilecompleted(string userID)
+        {
+            IUserProfileRepository profileRepo = new UserProfileRepository();
+            var profile = profileRepo.Get().Where(s => s.UserID == userID);
+            return profile.Select(s=>s.ProfileCompeted).FirstOrDefault();   
         }
     }
 }

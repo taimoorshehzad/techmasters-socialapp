@@ -1,0 +1,25 @@
+﻿@model List<SocialApp.DB.ViewModel.UserMessageViewModel>
+
+@{
+    ViewBag.Title = "Message";
+}
+
+@foreach (var item in Model)
+{
+   
+    <p>
+        <b>@item.MessageFrom</b>
+    </p>
+    <p>@item.Message</p>
+}
+<div id="footer-message">
+    <div class="container">
+        <p>
+            <textarea class="form-control" rows="3"></textarea>
+        </p>
+        <p>
+            <button type="submit" class="btn btn-primary">Send</button>
+        </p>
+    </div>
+</div>
+

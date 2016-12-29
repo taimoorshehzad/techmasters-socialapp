@@ -10,7 +10,7 @@ namespace SocialApp.DB.ViewModel
     public class ProfileViewModel
     {
         public string UserID { get; set; }
-        public int OrganizationID { get; set; }
+        public int? OrganizationID { get; set; }
         
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -33,10 +33,13 @@ namespace SocialApp.DB.ViewModel
         [Display(Name = "Mobile")]
         public string MobileNO { get; set; }
 
-        [Display(Name = "Country")]
-        public string Country { get; set; }
-        
         [Display(Name = "City")]
         public string City { get; set; }
+
+        [Display(Name = "State")]
+        public string State { get; set; }
+
+        [Display(Name = "Country")]
+        public string Country { get; set; }
     }
 }

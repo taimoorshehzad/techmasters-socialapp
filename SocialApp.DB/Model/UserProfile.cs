@@ -43,8 +43,8 @@ namespace SocialApp.DB.Model
         public string ProfilePicPath { get; set; }
         public string Address { get; set; }
         public string PhoneNo { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
+        public Nullable<int> CityID { get; set; }
+        public Nullable<bool> ProfileCompeted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
@@ -73,5 +73,6 @@ namespace SocialApp.DB.Model
         public virtual ICollection<UserMessage> UserMessages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserMessage> UserMessages1 { get; set; }
+        public virtual City City1 { get; set; }
     }
 }

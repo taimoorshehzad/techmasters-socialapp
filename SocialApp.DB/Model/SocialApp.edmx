@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SocialAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="int" Nullable="false" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="50" />
+          <Property Name="StateID" Type="int" />
+        </EntityType>
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="CommentID" />
@@ -21,6 +29,14 @@
           <Property Name="ConversationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserFrom" Type="int" />
           <Property Name="UserTo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="int" Nullable="false" />
+          <Property Name="CountryShortName" Type="nvarchar" MaxLength="5" />
+          <Property Name="CoutnryName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="FriendRequest">
           <Key>
@@ -75,6 +91,14 @@
           <Property Name="PostFrom" Type="int" />
           <Property Name="PostTo" Type="int" />
         </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="int" Nullable="false" />
+          <Property Name="StateName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CountryID" Type="int" />
+        </EntityType>
         <EntityType Name="UserFriend">
           <Key>
             <PropertyRef Name="UserFriendID" />
@@ -109,9 +133,21 @@
           <Property Name="ProfilePicPath" Type="varchar" MaxLength="500" />
           <Property Name="Address" Type="varchar(max)" />
           <Property Name="PhoneNo" Type="varchar" MaxLength="50" />
-          <Property Name="Country" Type="varchar" MaxLength="100" />
-          <Property Name="City" Type="varchar" MaxLength="100" />
+          <Property Name="CityID" Type="int" />
+          <Property Name="ProfileCompeted" Type="bit" />
         </EntityType>
+        <Association Name="FK_City_State">
+          <End Role="State" Type="Self.State" Multiplicity="0..1" />
+          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Comment_Post">
           <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
@@ -256,6 +292,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_State_Country">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="State" Type="Self.State" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="State">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserFriend_UserProfile">
           <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
           <End Role="UserFriend" Type="Self.UserFriend" Multiplicity="*" />
@@ -316,6 +364,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserProfile_City">
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserProfile_Organization">
           <End Role="Organization" Type="Self.Organization" Multiplicity="0..1" />
           <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="*" />
@@ -329,17 +389,24 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SocialAppModelStoreContainer">
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Conversation" EntityType="Self.Conversation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FriendRequest" EntityType="Self.FriendRequest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Like" EntityType="Self.Like" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LikeStatus" EntityType="Self.LikeStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organization" EntityType="Self.Organization" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserFriend" EntityType="Self.UserFriend" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserMessage" EntityType="Self.UserMessage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_City_State" Association="Self.FK_City_State">
+            <End Role="State" EntitySet="State" />
+            <End Role="City" EntitySet="City" />
+          </AssociationSet>
           <AssociationSet Name="FK_Comment_Post" Association="Self.FK_Comment_Post">
             <End Role="Post" EntitySet="Post" />
             <End Role="Comment" EntitySet="Comment" />
@@ -388,6 +455,10 @@
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
+          <AssociationSet Name="FK_State_Country" Association="Self.FK_State_Country">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="State" EntitySet="State" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserFriend_UserProfile" Association="Self.FK_UserFriend_UserProfile">
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="UserFriend" EntitySet="UserFriend" />
@@ -407,6 +478,10 @@
           <AssociationSet Name="FK_UserMessage_UserProfile1" Association="Self.FK_UserMessage_UserProfile1">
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="UserMessage" EntitySet="UserMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_City" Association="Self.FK_UserProfile_City">
+            <End Role="City" EntitySet="City" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
           </AssociationSet>
           <AssociationSet Name="FK_UserProfile_Organization" Association="Self.FK_UserProfile_Organization">
             <End Role="Organization" EntitySet="Organization" />
@@ -543,8 +618,6 @@
           <Property Name="ProfilePicPath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_UserProfile" FromRole="UserProfile" ToRole="Comment" />
           <NavigationProperty Name="Conversations" Relationship="Self.FK_Conversation_UserProfile" FromRole="UserProfile" ToRole="Conversation" />
           <NavigationProperty Name="Conversations1" Relationship="Self.FK_Conversation_UserProfile1" FromRole="UserProfile" ToRole="Conversation" />
@@ -559,6 +632,9 @@
           <NavigationProperty Name="UserFriends1" Relationship="Self.FK_UserFriend_UserProfile1" FromRole="UserProfile" ToRole="UserFriend" />
           <NavigationProperty Name="UserMessages" Relationship="Self.FK_UserMessage_UserProfile" FromRole="UserProfile" ToRole="UserMessage" />
           <NavigationProperty Name="UserMessages1" Relationship="Self.FK_UserMessage_UserProfile1" FromRole="UserProfile" ToRole="UserMessage" />
+          <Property Name="CityID" Type="Int32" />
+          <NavigationProperty Name="City1" Relationship="SocialAppModel.FK_UserProfile_City" FromRole="UserProfile" ToRole="City" />
+          <Property Name="ProfileCompeted" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Comment_Post">
           <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
@@ -860,7 +936,87 @@
             <End Role="UserProfile" EntitySet="UserProfiles" />
             <End Role="UserMessage" EntitySet="UserMessages" />
           </AssociationSet>
+          <EntitySet Name="Cities" EntityType="SocialAppModel.City" />
+          <EntitySet Name="Countries" EntityType="SocialAppModel.Country" />
+          <EntitySet Name="States" EntityType="SocialAppModel.State" />
+          <AssociationSet Name="FK_City_State" Association="SocialAppModel.FK_City_State">
+            <End Role="State" EntitySet="States" />
+            <End Role="City" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_City" Association="SocialAppModel.FK_UserProfile_City">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_State_Country" Association="SocialAppModel.FK_State_Country">
+            <End Role="Country" EntitySet="Countries" />
+            <End Role="State" EntitySet="States" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="Int32" Nullable="false" />
+          <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StateID" Type="Int32" />
+          <NavigationProperty Name="State" Relationship="SocialAppModel.FK_City_State" FromRole="City" ToRole="State" />
+          <NavigationProperty Name="UserProfiles" Relationship="SocialAppModel.FK_UserProfile_City" FromRole="City" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <Property Name="CountryShortName" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="CoutnryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="States" Relationship="SocialAppModel.FK_State_Country" FromRole="Country" ToRole="State" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="Int32" Nullable="false" />
+          <Property Name="StateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryID" Type="Int32" />
+          <NavigationProperty Name="Cities" Relationship="SocialAppModel.FK_City_State" FromRole="State" ToRole="City" />
+          <NavigationProperty Name="Country" Relationship="SocialAppModel.FK_State_Country" FromRole="State" ToRole="Country" />
+        </EntityType>
+        <Association Name="FK_City_State">
+          <End Type="SocialAppModel.State" Role="State" Multiplicity="0..1" />
+          <End Type="SocialAppModel.City" Role="City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="City">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfile_City">
+          <End Type="SocialAppModel.City" Role="City" Multiplicity="0..1" />
+          <End Type="SocialAppModel.UserProfile" Role="UserProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="CityID" />
+            </Principal>
+            <Dependent Role="UserProfile">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_State_Country">
+          <End Type="SocialAppModel.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="SocialAppModel.State" Role="State" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="State">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -969,6 +1125,8 @@
           <EntitySetMapping Name="UserProfiles">
             <EntityTypeMapping TypeName="SocialAppModel.UserProfile">
               <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="ProfileCompeted" ColumnName="ProfileCompeted" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
                 <ScalarProperty Name="UserProfileID" ColumnName="UserProfileID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
@@ -980,8 +1138,33 @@
                 <ScalarProperty Name="ProfilePicPath" ColumnName="ProfilePicPath" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="City" ColumnName="City" />
+                </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="SocialAppModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="SocialAppModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="CoutnryName" ColumnName="CoutnryName" />
+                <ScalarProperty Name="CountryShortName" ColumnName="CountryShortName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="SocialAppModel.State">
+              <MappingFragment StoreEntitySet="State">
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
+
 namespace SocialApp.DB.ViewModel
 {
     public class UserProfileViewModel
@@ -45,11 +46,16 @@ namespace SocialApp.DB.ViewModel
 
         [Required]
         [Display(Name = "Country")]
-        public string Country { get; set; }
+        public int CountryID { get; set; }
+
+        [Required]
+        [Display(Name = "State")]
+        public int StateID { get; set; }
 
         [Required]
         [Display(Name = "City")]
-        public string  City { get; set; }
+        public int  CityID { get; set; }
+        public bool ProfileCompleted { get; set; }
 
     }
 }

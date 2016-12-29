@@ -3,7 +3,11 @@
 @{
     ViewBag.Title = "EditOrganization";
 }
-
+<style>
+    .form-control.file-upload {
+        height: auto;
+    }
+</style>
 <h2>Create Organization</h2>
 <div class="row">
     <div class="col-md-12">
@@ -30,7 +34,7 @@
                     <div class="col-md-10">
                         @*@Html.EditorFor(m => m.LogoPath, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(m => m.LogoPath, "", new { @class = "text-danger" })*@
-                        <input type="file" name="LogoPath" id="LogoPath" class="form-control" />
+                        <input type="file" name="LogoPath" id="LogoPath" class="form-control file-upload" />
                     </div>
                 </div>
                 <div class="form-group">

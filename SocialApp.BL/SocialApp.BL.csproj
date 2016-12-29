@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisplayProfileBL.cs" />
+    <Compile Include="MessageBL.cs" />
     <Compile Include="OrganizationBL.cs" />
     <Compile Include="DashboardBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

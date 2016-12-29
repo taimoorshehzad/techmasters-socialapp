@@ -13,5 +13,7 @@ namespace SocailApp.Repository
 
         void Insert(UserProfile user);
 
+        void Update(UserProfile user);
+
     }
 }

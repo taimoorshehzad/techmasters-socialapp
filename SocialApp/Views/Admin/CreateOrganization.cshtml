@@ -4,6 +4,11 @@
     ViewBag.Title = "CreateOrganization";
 }
 
+<style>
+    .form-control.file-upload {
+    height: auto;
+}
+</style>
 <h2>Create Organization</h2>
 <div class="row">
     <h3 class="text-center text-info">@ViewBag.StatusMessage </h3>
@@ -31,7 +36,7 @@
                     @Html.LabelFor(m => m.LogoPath, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
                         @*@Html.EditorFor(m => m.LogoPath, new { htmlAttributes = new { @class = "form-control" } })*@
-                        <input type="file" id="LogoPath" name="LogoPath" class="form-control" />
+                        <input type="file" id="LogoPath" name="LogoPath" class="form-control file-upload" />
                         @*@html.validationmessagefor(m => m.logopath, "", new { @class = "text-danger" })*@
                     </div>
                 </div>

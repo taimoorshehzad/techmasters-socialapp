@@ -26,5 +26,20 @@ namespace SocailApp.Repository
         {
             return _context.UserProfiles.ToList();
         }
+
+        public void Update(UserProfile user)
+        {
+            var profile = _context.UserProfiles.Where(s => s.UserID == user.UserID).FirstOrDefault();
+            profile.OrganizationID = user.OrganizationID;
+            profile.ProfilePicPath = user.ProfilePicPath;
+            profile.FirstName = user.FirstName;
+            profile.LastName = user.LastName;
+            profile.DOB = user.DOB;
+            profile.Address = user.Address;
+            profile.Gender = user.Gender;
+            profile.PhoneNo = user.PhoneNo;
+            profile.CityID = user.CityID;
+            _context.SaveChanges();
+        }
     }
 }

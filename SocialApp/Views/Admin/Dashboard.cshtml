@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Home Page";
 }
+<h1>Organization Record </h1>
 
 <br />
 <br />
@@ -14,12 +15,11 @@
 
             <div class="col-md-3">
                 <div class="well bg-danger">
-                    <a class="">
-                        <span class="bg-danger"></span>
-
-                        <span>@item.OrganizationName </span>
-                        <span class="pull-right">@item.UsersCount</span>
-                    </a>
+                   
+                    @Html.ActionLink(item.OrganizationName, "DisplayProfile" , new { id = item.OrganizationID})    
+                    <span class="bg-danger"></span>
+                    <span class="pull-right">@item.UsersCount</span>
+                    
                 </div>
             </div>
 

@@ -39,9 +39,17 @@ namespace SocialApp.Controllers
         [HttpPost]
         public ActionResult CreateOrganization(AddOrganizationViewModel OrganizationViewModel, HttpPostedFileBase LogoPath)
         {
-            String status = _organizationBl.CreateOrganization(OrganizationViewModel, LogoPath);
-            ViewBag.StatusMessage = status;
-            return View();
+            string status = string.Empty;
+            try
+            {
+                 status = _organizationBl.CreateOrganization(OrganizationViewModel, LogoPath);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.StatusMessage = ex.Message;
+                return View();
+            }
         }
 
         //Edit Organization
@@ -64,6 +72,22 @@ namespace SocialApp.Controllers
         {
             String status = _organizationBl.DeleteOrganization(id);
             return RedirectToAction("index");
+        }
+		
+		public ActionResult DisplayProfile(int? id)
+        {
+            if (id == null)
+            {
+                var DPBL = new DisplayProfileBL();
+                return View(DPBL.GetUsers());
+            }
+            else
+            {
+                var DPBL = new DisplayProfileBL();
+
+                return View(DPBL.GetUsers(id));
+
+            }
         }
     }
 }

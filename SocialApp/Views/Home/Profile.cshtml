@@ -7,61 +7,74 @@
 
 <h2>Your Profile</h2>
 <div class="row">
-    <div class="col-sm-2 h4">
+    <div class="col-sm-2 h4 text-center">
         @Html.DisplayNameFor(model => model.ProfilePicPath)
     </div>
-    <div class="col-sm-1 h4">
+    <div class="col-sm-2 h4 text-center ">
         @Html.DisplayNameFor(model => model.FirstName)
     </div>
-    <div class="col-sm-1 h4">
+    <div class="col-sm-2 h4 text-center">
         @Html.DisplayNameFor(model => model.LastName)
     </div>
-    <div class="col-sm-1 h4">
+    <div class="col-sm-2 h4 text-center">
         @Html.DisplayNameFor(model => model.Gender)
     </div>
-    <div class="col-sm-1 h4">
+    <div class="col-sm-2 h4 text-center">
         @Html.DisplayNameFor(model => model.MobileNO)
     </div>
-    <div class="col-sm-1 h4">
+    <div class="col-sm-2 h4 text-center">
         @Html.DisplayNameFor(model => model.Address)
-    </div>
-    <div class="col-sm-1 h4">
-        @Html.DisplayNameFor(model => model.DOB)
-    </div>
-    <div class="col-sm-1 h4">
-        @Html.DisplayNameFor(model => model.Country)
-    </div>
-    <div class="col-sm-1 h4">
-        @Html.DisplayNameFor(model => model.City)
     </div>
 </div>
 <div class="row">
     <div class="col-sm-2 text-center">
-        <img class="img-circle" src="@Model.ProfilePicPath" height="100" />
+        <img class="img-thumbnail" src="~/Content/User/Profile/Images/@Model.ProfilePicPath" height="100" />
     </div>
-    <div class="col-sm-1 text-center">
+    <div class="col-sm-2 text-center">
         @Html.DisplayFor(model => model.FirstName)
     </div>
-    <div class="col-sm-1 text-center">
+    <div class="col-sm-2 text-center">
         @Html.DisplayFor(model => model.LastName)
     </div>
-    <div class="col-sm-1 text-center">
+    <div class="col-sm-2 text-center">
         @Html.DisplayFor(model => model.Gender)
     </div>
-    <div class="col-sm-1 text-center">
+    <div class="col-sm-2 text-center">
         @Html.DisplayFor(model => model.MobileNO)
     </div>
-    <div class="col-sm-1 text-center">
+    <div class="col-sm-2 text-center">
         @Html.DisplayFor(model => model.Address)
     </div>
-    <div class="col-sm-1 text-center">
-        @Html.DisplayFor(model => model.DOB)
+</div>
 
+<div class="row">
+    <div class="col-sm-offset-2 col-sm-2 h4 text-center">
+        @Html.DisplayNameFor(model => model.DOB)
     </div>
-    <div class="col-sm-1 text-center">
+    <div class="col-sm-2 h4 text-center">
+        @Html.DisplayNameFor(model => model.Country)
+    </div>
+    <div class="col-sm-2 h4 text-center">
+        @Html.DisplayNameFor(model => model.State)
+    </div>
+    <div class="col-sm-2 h4 text-center">
+        @Html.DisplayNameFor(model => model.City)
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-offset-2 col-sm-2 text-center">
+        @Html.DisplayFor(model => model.DOB)
+    </div>
+    <div class="col-sm-2 text-center">
         @Html.DisplayFor(model => model.Country)
     </div>
-    <div class="col-sm-1 text-center">
+    <div class="col-sm-2 text-center">
+        @Html.DisplayFor(model => model.State)
+    </div>
+    <div class="col-sm-2 text-center">
         @Html.DisplayFor(model => model.City)
+    </div>
+    <div class="col-sm-2 text-center">
+        @Html.ActionLink("Edit", "EditUserProfile", new { userID = Model.UserID , orgID = Model.OrganizationID })
     </div>
 </div>

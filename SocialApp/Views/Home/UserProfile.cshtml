@@ -17,7 +17,10 @@
             <div class="form-group">
                 @Html.LabelFor(Model=> Model.SelectedOrganization, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(Model => Model.SelectedOrganization, (SelectList)ViewBag.Organizations , "--Select Student--" ,new { @class = "form-control"} )
+                    @Html.DropDownListFor(Model => Model.SelectedOrganization,
+                            (SelectList)ViewBag.Organizations , "-- Select Organization --"
+                            ,new { @class = "form-control"
+                            } )
                 </div>
             </div>
             <div class="form-group">
@@ -48,11 +51,10 @@
                         }, "--- Select ---", new { @class = "form-control" })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
                 </div>
             </div>
             <div class="form-group">
@@ -68,18 +70,31 @@
                     @Html.TextBoxFor(m => m.MobileNO, new { @class = "form-control" })
                 </div>
             </div>
-
             <div class="form-group">
-                @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.CountryID, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+                    @Html.DropDownListFor(Model => Model.CountryID
+                        ,(SelectList)ViewBag.CountryDropDown
+                        , "--Select Country--"
+                        , new { @class = "form-control", @id = "SelectedCountry"})
                 </div>
             </div>
-
             <div class="form-group">
-                @Html.LabelFor(m => m.City, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.StateID, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.StateID
+                        , new SelectList(string.Empty, "Value", "Text")
+                        , "--Select State--"
+                        , new { @class = "form-control" , @id = "States" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.CityID, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                   @Html.DropDownListFor(m => m.CityID
+                        , new SelectList(string.Empty, "Value", "Text")
+                        , "--Select City--"
+                        , new { @class = "form-control", @id = "Cities" })
                 </div>
             </div>
             <div class="form-group">
@@ -90,11 +105,50 @@
         }
     </div>
 </div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 @section Scripts{
-    <<script type="text/javascript">
+    <script type="text/javascript">
             $(function () {
                 $('#DOB').datetimepicker({
                     format: 'YYYY-MM-DD'
+                });
+            });
+
+            $("#SelectedCountry").change(function () {
+                var countryId = $('#SelectedCountry').val();
+                $.ajax({
+                    url: "/Home/StatesByCountryID/"+ countryId ,
+                    type: "Get",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: 'JSON',
+                    success: function (data) {
+                        $('#States').empty();
+                        for (var i = 0; i < data.state.length; i++) {
+                            $('#States').append("<option value= " + data.state[i].Value + ">" + data.state[i].Text + "</option>");
+                        }
+                        //$.each(data, function (index) {
+                        //    var obj = $(this);
+                        //    console.log(obj);
+                        //    $('#States').append("<option value= " + obj[0].Value + ">" + obj[0].Text + "</option>");
+                        //});
+                    }
+                });
+            });
+
+            $("#States").change(function () {
+                var stateId = $('#States').val();
+                $.ajax({
+                    url: "/Home/CitesByStateID/" + stateId,
+                    type: "Get",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: 'JSON',
+                    success: function (data) {
+                        $('#Cities').empty();
+                        for (var i = 0; i < data.city.length; i++) {
+                            $('#Cities').append("<option value= " + data.city[i].Value + ">" + data.city[i].Text + "</option>");
+                        }
+                    }
                 });
             });
     </script>
