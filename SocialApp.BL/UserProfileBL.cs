@@ -17,8 +17,11 @@ namespace SocialApp.BL
             IUserProfileRepository repo = new UserProfileRepository();
 
             UserProfile user = new UserProfile();
-            var fileName = Path.GetFileName(viewModel.ProfilePhoto.FileName);
-            var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Users/"+ viewModel.UserID +"/Profile/Images/"), fileName);           
+
+            var fileName = Path.GetFileNameWithoutExtension(viewModel.ProfilePhoto.FileName);
+            fileName += DateTime.Now.Ticks + Path.GetExtension(viewModel.ProfilePhoto.FileName);
+            var basePath = "~/Content/Users/" + viewModel.UserID + "/Profile/Images/";
+            var path = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName);           
             Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Users/"+ viewModel.UserID +"/Profile/Images/"));
             viewModel.ProfilePhoto.SaveAs(path);
             
@@ -31,7 +34,7 @@ namespace SocialApp.BL
             user.CityID = viewModel.CityID;
             user.PhoneNo = viewModel.MobileNO;
             user.DOB = viewModel.DOB;
-            user.ProfilePicPath = fileName ;
+            user.ProfilePicPath = basePath + fileName;
             user.ProfileCompeted = true;
             repo.Insert(user);
         }
@@ -56,9 +59,6 @@ namespace SocialApp.BL
                 var city = cityRepo.Get().Where(s => s.CityID == yourProfile.CityID).FirstOrDefault();
                 var state = stateRepo.Get().Where(s => s.StateID == city.StateID).FirstOrDefault();
                 var country = countryRepo.Get().Where(s => s.CountryID == state.CountryID).FirstOrDefault();
-
-                var fileName = yourProfile.ProfilePicPath;
-                var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Users/" + userID + "/Profile/Images/"), fileName);
 
                 viewModel.UserID = userID;
                 viewModel.OrganizationID = yourProfile.OrganizationID;
@@ -112,11 +112,14 @@ namespace SocialApp.BL
             
             if (viewModel.ProfilePhoto != null)
             {
-                var fileName = Path.GetFileName(viewModel.ProfilePhoto.FileName);
-                var path = Path.Combine(HttpContext.Current.Server.MapPath("~/Content/Users/" + viewModel.UserID +"/Profile/Images/"), fileName);
-                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Users/" + viewModel.UserID+"/Profile/Images/"));
+                var fileName = Path.GetFileNameWithoutExtension(viewModel.ProfilePhoto.FileName);
+                fileName += DateTime.Now.Ticks + Path.GetExtension(viewModel.ProfilePhoto.FileName);
+                var basePath = "~/Content/Users/" + viewModel.UserID + "/Profile/Images/";
+                var path = Path.Combine(HttpContext.Current.Server.MapPath(basePath), fileName);
+                Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Content/Users/" + viewModel.UserID + "/Profile/Images/"));
                 viewModel.ProfilePhoto.SaveAs(path);
-                user.ProfilePicPath = fileName;
+
+                user.ProfilePicPath = basePath + fileName;
             }
             else
             {

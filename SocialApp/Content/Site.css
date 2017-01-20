@@ -133,3 +133,8 @@ textarea {
   min-height: 530px;
 }
 /*End User Profile side menu CSS*/
+
+/*For user search in top nav*/
+.ui-autocomplete {
+    z-index: 2000;
+}

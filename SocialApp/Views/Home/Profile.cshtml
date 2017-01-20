@@ -28,7 +28,7 @@
 </div>
 <div class="row">
     <div class="col-sm-2 text-center">
-        <img class="img-thumbnail" src="~/Content/User/Profile/Images/@Model.ProfilePicPath" height="100" />
+        <img class="img-thumbnail" src="@Url.Content(Model.ProfilePicPath)" height="100" />
     </div>
     <div class="col-sm-2 text-center">
         @Html.DisplayFor(model => model.FirstName)

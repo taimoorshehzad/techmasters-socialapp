@@ -85,7 +85,7 @@ namespace SocialApp.Controllers
             {
                 var DPBL = new DisplayProfileBL();
 
-                return View(DPBL.GetUsers(id));
+                return View(DPBL.GetUsersByOrganization(id));
 
             }
         }

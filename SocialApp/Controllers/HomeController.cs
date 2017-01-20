@@ -105,7 +105,6 @@ namespace SocialApp.Controllers
             if (userID != null && orgID !=null)
             {
                 UserProfileBL BL = new UserProfileBL();
-                //var profile = BL.GetProfileByUserAndOrganization(userID, orgID);
                 var profile = BL.GetProfileByUserID(userID);
                 return View(profile);
             }
@@ -170,6 +169,21 @@ namespace SocialApp.Controllers
             }).ToList();
             var city = new SelectList(cities, "Id", "Text");
             return Json(new { city }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult SearchUsers(string Prefix, int orgID)
+        {
+            var users = new DisplayProfileBL().GetUsersByOrganization(orgID);
+            Prefix = Prefix.ToLower();
+            //Searching records from list using LINQ query  
+            var searchedUsers = users.Where(w => w.FirstName.ToLower().Contains(Prefix) || w.LastName.ToLower().Contains(Prefix)).Select(s => new
+            {
+                Route = "/Home/Contact?user=" + s.UserID,
+                Name = s.FirstName + " " + s.LastName
+            });
+
+            return Json(searchedUsers, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -23,7 +23,7 @@
             @Html.LabelFor(model => model.ProfilePicPath, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-2">
                 @Html.HiddenFor(model=> model.ProfilePicPath)
-                <img class="img-thumbnail" src="~/Content/User/Profile/Images/@Model.ProfilePicPath" />
+                <img class="img-thumbnail" src="@Url.Content(Model.ProfilePicPath)" />
                 @Html.ValidationMessageFor(model => model.ProfilePicPath, "", new { @class = "text-danger" })
             </div>
         </div>

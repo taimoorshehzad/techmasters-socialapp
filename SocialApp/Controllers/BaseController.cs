@@ -17,10 +17,12 @@ namespace SocialApp.Controllers
 
         public BaseController()
         {
-            //var LoginUserId = User.Identity.GetUserId();
-            //var loginUserId = HttpContext.User.Identity.GetUserId();
-
             var loginUserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            if (System.Web.HttpContext.Current.Request.QueryString["user"] != null && System.Web.HttpContext.Current.Request.QueryString["user"] != "")
+            {
+                loginUserId = System.Web.HttpContext.Current.Request.QueryString["user"].ToString();
+            }
+
             if (loginUserId != null)
             {
                 ProfileViewModel UserData = new ProfileViewModel();

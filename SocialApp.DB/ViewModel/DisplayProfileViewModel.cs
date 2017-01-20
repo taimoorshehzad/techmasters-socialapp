@@ -9,7 +9,7 @@ namespace SocialApp.DB.ViewModel
 {
     public class DisplayProfileViewModel
     {
-        public int UserID { get; set; }
+        public string UserID { get; set; }
 
         public int OrganizationID { get; set; }
 

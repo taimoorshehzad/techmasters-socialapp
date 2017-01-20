@@ -16,10 +16,10 @@ namespace SocialApp.BL
             var yourProfiles = repo.Get();
             return (users(yourProfiles));
         }
-        public List<DisplayProfileViewModel> GetUsers(int? id)
+        public List<DisplayProfileViewModel> GetUsersByOrganization(int? organizationID)
         {
             UserProfileRepository repo = new UserProfileRepository();
-            var yourProfiles = repo.Get().Where(s => s.OrganizationID == id).ToList();
+            var yourProfiles = repo.Get().Where(s => s.OrganizationID == organizationID).ToList();
             return (users(yourProfiles));
 
         }
@@ -37,6 +37,7 @@ namespace SocialApp.BL
                 viewModel.PhoneNo = yourProfile.PhoneNo;
                 viewModel.Country = yourProfile.City1.State.Country.CoutnryName;
                 viewModel.City = yourProfile.City1.CityName;
+                viewModel.UserID = yourProfile.UserID;
                 viewModels.Add(viewModel);
             }
             return viewModels;
