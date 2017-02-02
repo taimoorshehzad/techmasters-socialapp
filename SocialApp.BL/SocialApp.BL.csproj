@@ -45,10 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentBL.cs" />
     <Compile Include="DisplayProfileBL.cs" />
+    <Compile Include="FriendRequestBL.cs" />
+    <Compile Include="LikeBL.cs" />
     <Compile Include="MessageBL.cs" />
+    <Compile Include="NotificationBL.cs" />
     <Compile Include="OrganizationBL.cs" />
     <Compile Include="DashboardBL.cs" />
+    <Compile Include="PostBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserProfileBL.cs" />
   </ItemGroup>

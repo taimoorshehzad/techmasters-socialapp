@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace SocailApp.Repository
 {
-    public interface IUserMessageRepository
+    public interface ILikeRepository
     {
-        List<UserMessage> GetMessage();
-
-        void SendMessage(UserMessage message);
+        bool SavePostLike(Like like);
+        void RemoveLike(int likeID);
     }
 }

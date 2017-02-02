@@ -54,7 +54,7 @@ namespace SocialApp.Controllers
         {
             var MBL = new MessageBL();
 
-            return View(MBL.userMessage(id));
+            return PartialView(MBL.userMessage(id));
         }
 
         [HttpGet]
@@ -91,6 +91,7 @@ namespace SocialApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public ActionResult UserProfile(UserProfileViewModel viewModel)
         {
             var userProfileBL = new UserProfileBL();
@@ -105,15 +106,16 @@ namespace SocialApp.Controllers
             if (userID != null && orgID !=null)
             {
                 UserProfileBL BL = new UserProfileBL();
-                var profile = BL.GetProfileByUserID(userID);
+                var profile = BL.GetProfileByUserIdentity(userID);
                 return View(profile);
             }
             else
             {
                 return View("Index");
             }
-        }   
- 
+        }
+
+        [Authorize(Roles = "User")]
         [HttpGet]
         public ActionResult EditUserProfile(string userID, int? orgID)
         {
@@ -137,6 +139,7 @@ namespace SocialApp.Controllers
             }
         }
 
+        [Authorize(Roles = "User")]
         [HttpPost]
         public ActionResult EditUserProfile(EditUserProfileViewModel viewModel)
         {
@@ -145,6 +148,8 @@ namespace SocialApp.Controllers
             int? orgID = viewModel.OrganizationID;
             return RedirectToAction("Profile", new { UserId = viewModel.UserID, orgID });
         }
+
+        [Authorize(Roles = "User")]
         public JsonResult StatesByCountryID(int id)
         {
             UserProfileBL bl = new UserProfileBL();
@@ -157,7 +162,7 @@ namespace SocialApp.Controllers
             var state = new SelectList(states, "Id", "Text");
             return Json(new { state }, JsonRequestBehavior.AllowGet);
         }
-
+        [Authorize(Roles = "User")]
         public JsonResult CitesByStateID(int id)
         {
             UserProfileBL bl = new UserProfileBL();
@@ -171,19 +176,28 @@ namespace SocialApp.Controllers
             return Json(new { city }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public JsonResult SearchUsers(string Prefix, int orgID)
+        [Authorize(Roles = "User")]
+        public ActionResult Wall()
         {
-            var users = new DisplayProfileBL().GetUsersByOrganization(orgID);
-            Prefix = Prefix.ToLower();
-            //Searching records from list using LINQ query  
-            var searchedUsers = users.Where(w => w.FirstName.ToLower().Contains(Prefix) || w.LastName.ToLower().Contains(Prefix)).Select(s => new
+            var userID = User.Identity.GetUserId();
+            if (Request.QueryString["user"] != null && Request.QueryString["user"] != "")
             {
-                Route = "/Home/Contact?user=" + s.UserID,
-                Name = s.FirstName + " " + s.LastName
-            });
+                userID = Request.QueryString["user"].ToString();
+            }
+            else
+            {
+                userID = new UserProfileBL().GetProfileByUserIdentity(userID).UserProfileID.ToString();
+            }
 
-            return Json(searchedUsers, JsonRequestBehavior.AllowGet);
+            var postVM = new PostBL().GetPostsWithLikesAndComments(Convert.ToInt32(userID));
+            return View(postVM);
+        }
+
+        [Authorize(Roles = "User")]
+        public ActionResult PostComments(int postID)
+        {
+            var postComments = new CommentBL().GetCommentsByPostID(postID);
+            return PartialView(postComments);
         }
     }
 }

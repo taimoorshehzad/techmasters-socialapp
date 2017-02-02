@@ -15,5 +15,7 @@ namespace SocailApp.Repository
 
         void Update(UserProfile user);
 
+        UserProfile GetUserProfileByIdentity(string identity);
+
     }
 }

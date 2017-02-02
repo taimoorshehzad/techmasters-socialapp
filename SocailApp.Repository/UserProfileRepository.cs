@@ -41,5 +41,10 @@ namespace SocailApp.Repository
             profile.CityID = user.CityID;
             _context.SaveChanges();
         }
+
+        public UserProfile GetUserProfileByIdentity(string identity)
+        {
+            return _context.UserProfiles.Where(w => w.UserID == identity).FirstOrDefault();
+        }
     }
 }

@@ -174,6 +174,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AjaxController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utility\IdentityExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.css" />
@@ -338,9 +340,12 @@
     <Content Include="Views\Home\Conversation.cshtml" />
     <Content Include="Views\Home\Message.cshtml" />
     <Content Include="Views\Home\EditUserProfile.cshtml" />
+    <Content Include="Views\Home\Wall.cshtml" />
+    <Content Include="Views\Home\PostComments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Ajax\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

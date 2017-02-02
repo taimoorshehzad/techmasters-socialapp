@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace SocailApp.Repository
 {
-    public interface IUserMessageRepository
+    public interface INotificationRepository
     {
-        List<UserMessage> GetMessage();
+        IEnumerable<Notification> GetByUserProfileID(int userProfileID);
 
-        void SendMessage(UserMessage message);
+        void Save(Notification notification);
     }
 }

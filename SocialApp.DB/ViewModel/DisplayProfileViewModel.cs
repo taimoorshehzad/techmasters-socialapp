@@ -11,6 +11,8 @@ namespace SocialApp.DB.ViewModel
     {
         public string UserID { get; set; }
 
+        public int UserProfileID { get; set; }
+
         public int OrganizationID { get; set; }
 
         [Display(Name = "First Name")]

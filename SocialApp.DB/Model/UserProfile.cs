@@ -20,8 +20,6 @@ namespace SocialApp.DB.Model
             this.Comments = new HashSet<Comment>();
             this.Conversations = new HashSet<Conversation>();
             this.Conversations1 = new HashSet<Conversation>();
-            this.FriendRequests = new HashSet<FriendRequest>();
-            this.FriendRequests1 = new HashSet<FriendRequest>();
             this.Likes = new HashSet<Like>();
             this.Notifications = new HashSet<Notification>();
             this.Posts = new HashSet<Post>();
@@ -52,10 +50,6 @@ namespace SocialApp.DB.Model
         public virtual ICollection<Conversation> Conversations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Conversation> Conversations1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FriendRequest> FriendRequests { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FriendRequest> FriendRequests1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Like> Likes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

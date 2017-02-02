@@ -7,7 +7,6 @@
       <Diagram DiagramId="f8c98be5b6d74f8cb30eb988295a59ae" Name="Diagram1">
         <EntityTypeShape EntityType="SocialAppModel.Comment" Width="1.5" PointX="7.5" PointY="14.625" IsExpanded="true" />
         <EntityTypeShape EntityType="SocialAppModel.Conversation" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="SocialAppModel.FriendRequest" Width="1.5" PointX="5.25" PointY="10.875" IsExpanded="true" />
         <EntityTypeShape EntityType="SocialAppModel.Like" Width="1.5" PointX="7.5" PointY="17.625" IsExpanded="true" />
         <EntityTypeShape EntityType="SocialAppModel.LikeStatu" Width="1.5" PointX="5.25" PointY="14" IsExpanded="true" />
         <EntityTypeShape EntityType="SocialAppModel.Notification" Width="1.5" PointX="5.25" PointY="17" IsExpanded="true" />
@@ -21,8 +20,6 @@
         <AssociationConnector Association="SocialAppModel.FK_Conversation_UserProfile" ManuallyRouted="false" />
         <AssociationConnector Association="SocialAppModel.FK_Conversation_UserProfile1" ManuallyRouted="false" />
         <AssociationConnector Association="SocialAppModel.FK_UserMessage_Conversation" ManuallyRouted="false" />
-        <AssociationConnector Association="SocialAppModel.FK_FriendRequest_UserProfile" ManuallyRouted="false" />
-        <AssociationConnector Association="SocialAppModel.FK_FriendRequest_UserProfile1" ManuallyRouted="false" />
         <AssociationConnector Association="SocialAppModel.FK_Like_LikeStatus" ManuallyRouted="false" />
         <AssociationConnector Association="SocialAppModel.FK_Like_Post" ManuallyRouted="false" />
         <AssociationConnector Association="SocialAppModel.FK_Like_UserProfile" ManuallyRouted="false" />

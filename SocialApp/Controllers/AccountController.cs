@@ -454,7 +454,7 @@ namespace SocialApp.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Wall", "Home");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

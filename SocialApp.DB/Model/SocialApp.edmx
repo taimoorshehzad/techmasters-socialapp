@@ -38,15 +38,6 @@
           <Property Name="CountryShortName" Type="nvarchar" MaxLength="5" />
           <Property Name="CoutnryName" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="FriendRequest">
-          <Key>
-            <PropertyRef Name="FriendRequestID" />
-          </Key>
-          <Property Name="FriendRequestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserProfileID" Type="int" />
-          <Property Name="RequestID" Type="int" />
-          <Property Name="CreatedOn" Type="datetime" />
-        </EntityType>
         <EntityType Name="Like">
           <Key>
             <PropertyRef Name="LikeID" />
@@ -90,6 +81,7 @@
           <Property Name="PostContent" Type="varchar(max)" />
           <Property Name="PostFrom" Type="int" />
           <Property Name="PostTo" Type="int" />
+          <Property Name="PostedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="State">
           <Key>
@@ -107,6 +99,7 @@
           <Property Name="UserProfileID" Type="int" />
           <Property Name="FriendID" Type="int" />
           <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="IsRequestPending" Type="bit" />
         </EntityType>
         <EntityType Name="UserMessage">
           <Key>
@@ -193,30 +186,6 @@
             </Principal>
             <Dependent Role="Conversation">
               <PropertyRef Name="UserTo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FriendRequest_UserProfile">
-          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
-          <End Role="FriendRequest" Type="Self.FriendRequest" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserProfile">
-              <PropertyRef Name="UserProfileID" />
-            </Principal>
-            <Dependent Role="FriendRequest">
-              <PropertyRef Name="UserProfileID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FriendRequest_UserProfile1">
-          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
-          <End Role="FriendRequest" Type="Self.FriendRequest" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserProfile">
-              <PropertyRef Name="UserProfileID" />
-            </Principal>
-            <Dependent Role="FriendRequest">
-              <PropertyRef Name="RequestID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -393,7 +362,6 @@
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Conversation" EntityType="Self.Conversation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="FriendRequest" EntityType="Self.FriendRequest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Like" EntityType="Self.Like" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LikeStatus" EntityType="Self.LikeStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
@@ -422,14 +390,6 @@
           <AssociationSet Name="FK_Conversation_UserProfile1" Association="Self.FK_Conversation_UserProfile1">
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="Conversation" EntitySet="Conversation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FriendRequest_UserProfile" Association="Self.FK_FriendRequest_UserProfile">
-            <End Role="UserProfile" EntitySet="UserProfile" />
-            <End Role="FriendRequest" EntitySet="FriendRequest" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FriendRequest_UserProfile1" Association="Self.FK_FriendRequest_UserProfile1">
-            <End Role="UserProfile" EntitySet="UserProfile" />
-            <End Role="FriendRequest" EntitySet="FriendRequest" />
           </AssociationSet>
           <AssociationSet Name="FK_Like_LikeStatus" Association="Self.FK_Like_LikeStatus">
             <End Role="LikeStatus" EntitySet="LikeStatus" />
@@ -514,17 +474,6 @@
           <NavigationProperty Name="UserProfile1" Relationship="Self.FK_Conversation_UserProfile1" FromRole="Conversation" ToRole="UserProfile" />
           <NavigationProperty Name="UserMessages" Relationship="Self.FK_UserMessage_Conversation" FromRole="Conversation" ToRole="UserMessage" />
         </EntityType>
-        <EntityType Name="FriendRequest">
-          <Key>
-            <PropertyRef Name="FriendRequestID" />
-          </Key>
-          <Property Name="FriendRequestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserProfileID" Type="Int32" />
-          <Property Name="RequestID" Type="Int32" />
-          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="UserProfile" Relationship="Self.FK_FriendRequest_UserProfile" FromRole="FriendRequest" ToRole="UserProfile" />
-          <NavigationProperty Name="UserProfile1" Relationship="Self.FK_FriendRequest_UserProfile1" FromRole="FriendRequest" ToRole="UserProfile" />
-        </EntityType>
         <EntityType Name="Like">
           <Key>
             <PropertyRef Name="LikeID" />
@@ -578,6 +527,7 @@
           <NavigationProperty Name="Likes" Relationship="Self.FK_Like_Post" FromRole="Post" ToRole="Like" />
           <NavigationProperty Name="UserProfile" Relationship="Self.FK_Post_UserProfile" FromRole="Post" ToRole="UserProfile" />
           <NavigationProperty Name="UserProfile1" Relationship="Self.FK_Post_UserProfile1" FromRole="Post" ToRole="UserProfile" />
+          <Property Name="PostedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="UserFriend">
           <Key>
@@ -589,6 +539,7 @@
           <Property Name="CreatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="UserProfile" Relationship="Self.FK_UserFriend_UserProfile" FromRole="UserFriend" ToRole="UserProfile" />
           <NavigationProperty Name="UserProfile1" Relationship="Self.FK_UserFriend_UserProfile1" FromRole="UserFriend" ToRole="UserProfile" />
+          <Property Name="IsRequestPending" Type="Boolean" />
         </EntityType>
         <EntityType Name="UserMessage">
           <Key>
@@ -621,8 +572,6 @@
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_UserProfile" FromRole="UserProfile" ToRole="Comment" />
           <NavigationProperty Name="Conversations" Relationship="Self.FK_Conversation_UserProfile" FromRole="UserProfile" ToRole="Conversation" />
           <NavigationProperty Name="Conversations1" Relationship="Self.FK_Conversation_UserProfile1" FromRole="UserProfile" ToRole="Conversation" />
-          <NavigationProperty Name="FriendRequests" Relationship="Self.FK_FriendRequest_UserProfile" FromRole="UserProfile" ToRole="FriendRequest" />
-          <NavigationProperty Name="FriendRequests1" Relationship="Self.FK_FriendRequest_UserProfile1" FromRole="UserProfile" ToRole="FriendRequest" />
           <NavigationProperty Name="Likes" Relationship="Self.FK_Like_UserProfile" FromRole="UserProfile" ToRole="Like" />
           <NavigationProperty Name="Notifications" Relationship="Self.FK_Notification_UserProfile" FromRole="UserProfile" ToRole="Notification" />
           <NavigationProperty Name="Organization" Relationship="Self.FK_UserProfile_Organization" FromRole="UserProfile" ToRole="Organization" />
@@ -693,30 +642,6 @@
             </Principal>
             <Dependent Role="UserMessage">
               <PropertyRef Name="ConversationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FriendRequest_UserProfile">
-          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
-          <End Role="FriendRequest" Type="Self.FriendRequest" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserProfile">
-              <PropertyRef Name="UserProfileID" />
-            </Principal>
-            <Dependent Role="FriendRequest">
-              <PropertyRef Name="UserProfileID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FriendRequest_UserProfile1">
-          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
-          <End Role="FriendRequest" Type="Self.FriendRequest" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserProfile">
-              <PropertyRef Name="UserProfileID" />
-            </Principal>
-            <Dependent Role="FriendRequest">
-              <PropertyRef Name="RequestID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -855,7 +780,6 @@
         <EntityContainer Name="SocialAppEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Comments" EntityType="Self.Comment" />
           <EntitySet Name="Conversations" EntityType="Self.Conversation" />
-          <EntitySet Name="FriendRequests" EntityType="Self.FriendRequest" />
           <EntitySet Name="Likes" EntityType="Self.Like" />
           <EntitySet Name="LikeStatus" EntityType="Self.LikeStatu" />
           <EntitySet Name="Notifications" EntityType="Self.Notification" />
@@ -883,14 +807,6 @@
           <AssociationSet Name="FK_UserMessage_Conversation" Association="Self.FK_UserMessage_Conversation">
             <End Role="Conversation" EntitySet="Conversations" />
             <End Role="UserMessage" EntitySet="UserMessages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FriendRequest_UserProfile" Association="Self.FK_FriendRequest_UserProfile">
-            <End Role="UserProfile" EntitySet="UserProfiles" />
-            <End Role="FriendRequest" EntitySet="FriendRequests" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FriendRequest_UserProfile1" Association="Self.FK_FriendRequest_UserProfile1">
-            <End Role="UserProfile" EntitySet="UserProfiles" />
-            <End Role="FriendRequest" EntitySet="FriendRequests" />
           </AssociationSet>
           <AssociationSet Name="FK_Like_LikeStatus" Association="Self.FK_Like_LikeStatus">
             <End Role="LikeStatus" EntitySet="LikeStatus" />
@@ -1042,16 +958,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="FriendRequests">
-            <EntityTypeMapping TypeName="SocialAppModel.FriendRequest">
-              <MappingFragment StoreEntitySet="FriendRequest">
-                <ScalarProperty Name="FriendRequestID" ColumnName="FriendRequestID" />
-                <ScalarProperty Name="UserProfileID" ColumnName="UserProfileID" />
-                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Likes">
             <EntityTypeMapping TypeName="SocialAppModel.Like">
               <MappingFragment StoreEntitySet="Like">
@@ -1094,6 +1000,7 @@
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="SocialAppModel.Post">
               <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="PostedOn" ColumnName="PostedOn" />
                 <ScalarProperty Name="PostID" ColumnName="PostID" />
                 <ScalarProperty Name="PostContent" ColumnName="PostContent" />
                 <ScalarProperty Name="PostFrom" ColumnName="PostFrom" />
@@ -1104,6 +1011,7 @@
           <EntitySetMapping Name="UserFriends">
             <EntityTypeMapping TypeName="SocialAppModel.UserFriend">
               <MappingFragment StoreEntitySet="UserFriend">
+                <ScalarProperty Name="IsRequestPending" ColumnName="IsRequestPending" />
                 <ScalarProperty Name="UserFriendID" ColumnName="UserFriendID" />
                 <ScalarProperty Name="UserProfileID" ColumnName="UserProfileID" />
                 <ScalarProperty Name="FriendID" ColumnName="FriendID" />

@@ -29,6 +29,7 @@ namespace SocialApp.BL
             foreach (var yourProfile in yourProfiles)
             {
                 DisplayProfileViewModel viewModel = new DisplayProfileViewModel();
+
                 viewModel.FirstName = yourProfile.FirstName;
                 viewModel.LastName = yourProfile.LastName;
                 viewModel.Gender = yourProfile.Gender;
@@ -38,6 +39,7 @@ namespace SocialApp.BL
                 viewModel.Country = yourProfile.City1.State.Country.CoutnryName;
                 viewModel.City = yourProfile.City1.CityName;
                 viewModel.UserID = yourProfile.UserID;
+                viewModel.UserProfileID = yourProfile.UserProfileID;
                 viewModels.Add(viewModel);
             }
             return viewModels;

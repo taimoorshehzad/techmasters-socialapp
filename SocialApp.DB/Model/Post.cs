@@ -25,6 +25,7 @@ namespace SocialApp.DB.Model
         public string PostContent { get; set; }
         public Nullable<int> PostFrom { get; set; }
         public Nullable<int> PostTo { get; set; }
+        public Nullable<System.DateTime> PostedOn { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }

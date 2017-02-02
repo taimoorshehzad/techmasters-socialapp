@@ -1,0 +1,178 @@
+﻿@using SocialApp.Utility;
+@model List<SocialApp.DB.ViewModel.PostViewModel>
+@{
+    ViewBag.Title = "Wall";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+
+}
+<div class="well">
+    <form class="form center-block">
+        <div class="form-group">
+            <textarea id="textPostContent" class="form-control" autofocus="" placeholder="What do you want to share?" style="min-width:100%"></textarea>
+        </div>
+        <div class="status-footer text-right">
+            <button id="btnUserPost" class="btn btn-primary" aria-hidden="true">Post</button>
+        </div>
+    </form>
+</div>
+
+@foreach (var item in Model)
+{
+    DateTime oldDate = item.PostedOn.Value;
+    DateTime newDate = DateTime.Now;
+    // Difference in days, hours, and minutes.
+    TimeSpan ts = newDate - oldDate;
+    // Difference in days.
+    int differenceInDays = ts.Days;
+    string displayPostTimeAgo = differenceInDays.ToString() + " days ago";
+    if (differenceInDays <= 0)
+    {
+        displayPostTimeAgo = ts.Hours.ToString() + " hours ago";
+    }
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="text-right">
+                Posted :
+                @displayPostTimeAgo
+            </h4>
+        </div>
+        <div class="panel-body">
+            <img src="@Url.Content(item.PostFromProfilePicPath)" width="50" class="img-thumbnail pull-left" style="margin-right:10px">
+            @if (!string.IsNullOrEmpty(item.PostToProfilePicPath))
+            {
+                <img src="@Url.Content(item.PostToProfilePicPath)" width="50" class="img-thumbnail pull-right" style="margin-right:10px">
+            }
+            <p>@item.PostContent</p>
+            <hr>
+            <form>
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" title="Like" onclick="return LikePost(this, @item.PostID, @item.PostFromID)">
+                            <i class="glyphicon glyphicon-thumbs-up"></i>
+                            <span class="badge">@item.Likes.Count</span>
+                        </button>
+                    </div>
+                    <input class="form-control" id="commentBox_@item.PostID" placeholder="Add a comment.." type="text">
+                    <button class="btn btn-default" title="Comment" onclick="return CommentOnPost(@item.PostID, @item.PostFromID)">
+                        <i class="glyphicon glyphicon-share"></i>
+                    </button>
+                    <button class="btn btn-default" title="View Comments" onclick="return LoadCommentsAndShowModal(@item.PostID)">
+                        <i class="glyphicon glyphicon-comment"></i>
+                        <span id="commentsCount_@item.PostID" class="badge">@item.Comments.Count</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+@if (Model.Count == 0)
+{
+   <p>No posts found.</p>
+}
+
+<!-- Comments Modal -->
+<div class="modal fade" id="commentsModal" tabindex="-1" role="dialog" aria-labelledby="commentsModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="commentsModalLabel">Comments</h4>
+            </div>
+            <div id="commentsModalBody" class="modal-body">
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+    var userProfileID = @User.Identity.GetUserProfileID();
+    var userFullName = '@User.Identity.GetUserFullName()';
+    $('#btnUserPost').click(function (e) {
+        var postContent = $('#textPostContent').val();
+        var postFrom = userProfileID;
+        var postTo = '@Request.QueryString["user"]';
+        if (postContent != '' && postFrom > 0) {
+            $.ajax({
+                url: "/Ajax/SaveUserPost",
+                type: "POST",
+                dataType: "json",
+                data: { PostFromID: postFrom, PostToID: postTo, PostContent: postContent },
+                success: function (data) {
+                    if (data != 'success') {
+                        alert(data);
+                    }
+                    $('#textPostContent').val('');
+
+                    location.reload(true);
+                }
+            })
+        }
+        e.preventDefault();
+    })
+
+    function LikePost(thisElement, postID, postFromID) {
+        $.ajax({
+            url: "/Ajax/AddLike",
+            type: "POST",
+            dataType: "json",
+            data: { LikeBy: userProfileID, PostID: postID, NotificationTo: postFromID, NotificationFromFullName: userFullName },
+            success: function (data) {
+                if (data) {
+                    var likeCount = $(thisElement).find('.badge').html();
+                    $(thisElement).find('.badge').html(parseInt(likeCount)+1);
+                }
+            },
+            error: function (error) {
+                alert(error);
+            }
+        })
+
+        return false;
+    }
+
+    function CommentOnPost(postID, postFromID) {
+        var commentText = $('#commentBox_'+postID).val();
+        if (commentText!='') {
+            $.ajax({
+                url: "/Ajax/SaveComment",
+                type: "POST",
+                dataType: "json",
+                data: { CommentBy: userProfileID, PostID: postID, Text: commentText, NotificationTo: postFromID, NotificationFromFullName: userFullName  },
+                success: function (data) {
+                    var commentsCount = $('#commentsCount_'+postID).html();
+                    $('#commentsCount_'+postID).html(parseInt(commentsCount)+1);
+                    $('#commentBox_'+postID).val('');
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            })
+
+        }
+        return false;
+    }
+
+    function LoadCommentsAndShowModal(postID) {
+        $.ajax({
+            url: "/Home/PostComments",
+            type: "POST",
+            dataType: "html",
+            data: { postID: postID },
+            success: function (data) {
+                $('#commentsModalBody').html(data);
+                $('#commentsModal').modal('show')
+            },
+            error: function (error) {
+                alert(error);
+            }
+        })
+        return false;
+    }
+</script>
+}

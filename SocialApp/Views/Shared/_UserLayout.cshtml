@@ -1,4 +1,5 @@
-﻿@{
+﻿@using SocialApp.Utility;
+@{
     SocialApp.DB.ViewModel.ProfileViewModel layoutModel = ViewBag.LayoutModel;
 }
 
@@ -30,16 +31,21 @@
                             @layoutModel.FirstName @layoutModel.LastName
                         </div>
                         <div class="profile-usertitle-job">
-                            Developer
+                            @layoutModel.Gender, @layoutModel.Age <br />
+                            @layoutModel.City, @layoutModel.Country
                         </div>
                     </div>
                     <!-- END SIDEBAR USER TITLE -->
-                    <!-- SIDEBAR BUTTONS -->
-                    <div class="profile-userbuttons">
-                        <button type="button" class="btn btn-success btn-sm">Follow</button>
-                        <button type="button" class="btn btn-danger btn-sm">Message</button>
-                    </div>
-                    <!-- END SIDEBAR BUTTONS -->
+                    @if (!layoutModel.IsOwnProfile)
+                    {
+                        <!-- SIDEBAR BUTTONS -->
+                        <div class="profile-userbuttons">
+                            <button type="button" id="btnAddFriend" class="btn btn-success btn-sm" data-toggle="modal" data-target="#friendRequestModal">Add Friend</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#messageModal">Message</button>
+                        </div>
+                        <!-- END SIDEBAR BUTTONS -->
+                    }
+                    
                     <!-- SIDEBAR MENU -->
                     <div class="profile-usermenu">
                         <ul class="nav">
@@ -78,6 +84,50 @@
                 </div>
             </div>
         </div>
+
+        <!-- Friend Request Modal -->
+        <div class="modal fade" id="friendRequestModal" tabindex="-1" role="dialog" aria-labelledby="friendRequestModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="friendRequestModalLabel">Add Friend</h4>
+                    </div>
+                    <div class="modal-body">
+                        Add @layoutModel.FirstName @layoutModel.LastName to your friend list?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnSendFriendRequest" class="btn btn-success">Yes</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message Modal -->
+        <div id="messageModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        Message
+                    </div>
+                    <div class="modal-body">
+                        <form class="form center-block">
+                            <div class="form-group">
+                                <textarea class="form-control input-lg" id="txtMessage" autofocus="" placeholder="Your message goes here..."></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div>
+                            <button class="btn btn-primary btn-sm" id="btnSendMessage" aria-hidden="true">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <footer>
             <p>&copy; @DateTime.Now.Year - Social App</p>
         </footer>
@@ -87,11 +137,12 @@
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
     <script>
+        var userProfileID = @User.Identity.GetUserProfileID();
         $(document).ready(function () {
             $("#userSearchBox").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: "/Home/SearchUsers",
+                        url: "/Ajax/SearchUsers",
                         type: "POST",
                         dataType: "json",
                         data: { Prefix: request.term, orgID:@layoutModel.OrganizationID },
@@ -110,7 +161,145 @@
                     noResults: "", results: function(resultsCount) {}
                 }
             });
-        })
+
+            @if (layoutModel.IsFriendRequestSent)
+            {
+                <text>
+                    ChangeFriendRequstButton("Friend Request Sent");
+                </text>
+            }
+            @if (layoutModel.IsFriendRequestPending)
+            {
+                <text>
+                    ChangeFriendRequstButton("Friend Request Pending");
+                </text>
+            }
+            @if (layoutModel.IsFriend)
+            {
+                <text>
+                    ChangeFriendRequstButton("Friends");
+                </text>
+            }
+
+            $('#btnSendFriendRequest').click(function() {
+                $.ajax({
+                    url: "/Ajax/SaveFriendRequest",
+                    type: "POST",
+                    dataType: "json",
+                    data: { FriendID: @layoutModel.UserProfileID, UserProfileID: userProfileID, IsFriendRequestPending: true},
+                    success: function (data) {
+                        if (data == 'success') {
+                            ChangeFriendRequstButton("Friend Request Sent");
+                        }
+                        else {
+                            alert(data);
+                        }
+                    }
+                })
+
+                $('#friendRequestModal').modal('toggle')
+            });
+            PopulateFriendRequests(true);
+
+            $('#btnSendMessage').click(function() {
+                var messageText=$('#txtMessage').val();
+                if (messageText!='') {
+                    $.ajax({
+                        url: "/Ajax/SendMessage",
+                        type: "POST",
+                        dataType: "json",
+                        data: { MessageTo: @layoutModel.UserProfileID, MessageFrom: userProfileID, Message: messageText},
+                        success: function (data) {
+                           
+                        },
+                        error: function (error) {
+                            console.log();
+                            alert(error.statusText);
+                        }
+                    })
+
+                    $('#messageModal').modal('toggle');
+                }
+            });
+        });
+
+        function ChangeFriendRequstButton(btnText) {
+            $('#btnAddFriend').html(btnText);
+            $('#btnAddFriend').removeClass('btn-success');
+            $('#btnAddFriend').addClass('btn-info');
+            $('#btnAddFriend').removeAttr('data-target')
+            $('#btnAddFriend').removeAttr('data-toggle');
+        }
+
+        function PopulateFriendRequests(isRequestPending) {
+            if (userProfileID > 0) {
+                $.ajax({
+                    url: "/Ajax/GetUserFriends",
+                    type: "POST",
+                    dataType: "json",
+                    data: { userProfileID: userProfileID, isFriendRequestPending: isRequestPending},
+                    success: function (data) {
+                        if (data.length>0) {
+                            $('#ulFriendRequests').html('');
+                            $.each( data, function(index) {
+                                var profilePicPath = this.FriendRequestProfilePath.substring(1);
+                                var fullname=this.FriendRequestFullName;
+                                $('#ulFriendRequests').append("<li>"+
+                                    "<div><img src='"+profilePicPath+"' width='30' style='padding-right:10px'></img>"+fullname+
+                                    "  <button type='button' onclick='AcceptFriendRequest("+this.UserFriendID+",this)' class='btn btn-success btn-xs'>"+
+                                    "<i class='glyphicon glyphicon-ok' title='Accept'></i></button>"+
+                                    "<button type='button' onclick='RemoveFriendRequest("+this.UserFriendID+",this)' class='btn btn-danger btn-xs'>"+
+                                    "<i class='glyphicon glyphicon-remove' title='Remove'></i></button></div></li>");
+                            });
+                        }
+                        $('#badgeFriendRequests').html(data.length);
+                    },
+                    error: function (error) {
+                        alert(error.statusText);
+                    }
+                })
+            }
+        }
+
+        function AcceptFriendRequest(userfriendID, thisElement) {
+            $.ajax({
+                url: "/Ajax/SaveFriendRequest",
+                type: "POST",
+                dataType: "json",
+                data: {UserFriendID:userfriendID, IsFriendRequestPending: false},
+                success: function (data) {
+                    if (data.length>0) {
+                        $(thisElement).closest('div').html('Friend request accepted.');
+                    }
+                    var badgeCount=$('#badgeFriendRequests').html();
+                    $('#badgeFriendRequests').html(badgeCount-1);
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            })
+        }
+
+        function RemoveFriendRequest(friendRequestID, thisElement) {
+            $.ajax({
+                url: "/Ajax/RemoveFriendRequest",
+                type: "POST",
+                dataType: "json",
+                data: { friendID: friendRequestID },
+                success: function (data) {
+                    if (data.length>0) {
+                        $(thisElement).closest('div').html('Friend request removed.');
+                    }
+                    var badgeCount=$('#badgeFriendRequests').html();
+                    $('#badgeFriendRequests').html(badgeCount-1);
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            })
+        }
+
+
     </script>
     @RenderSection("scripts", required: false)
 </body>

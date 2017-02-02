@@ -44,7 +44,7 @@ namespace SocialApp.BL
             ICountryRepository countryRepo = new CountryRepository();
             return countryRepo.Get();
         }
-        public ProfileViewModel GetProfileByUserID(string userID)
+        public ProfileViewModel GetProfileByUserIdentity(string userID)
         {
             UserProfileRepository repo = new UserProfileRepository();
             ICountryRepository countryRepo = new CountryRepository();
@@ -61,6 +61,40 @@ namespace SocialApp.BL
                 var country = countryRepo.Get().Where(s => s.CountryID == state.CountryID).FirstOrDefault();
 
                 viewModel.UserID = userID;
+                viewModel.UserProfileID = yourProfile.UserProfileID;
+                viewModel.OrganizationID = yourProfile.OrganizationID;
+                viewModel.FirstName = yourProfile.FirstName;
+                viewModel.LastName = yourProfile.LastName;
+                viewModel.Address = yourProfile.Address;
+                viewModel.Gender = yourProfile.Gender;
+                viewModel.MobileNO = yourProfile.PhoneNo;
+                viewModel.ProfilePicPath = yourProfile.ProfilePicPath;
+                viewModel.DOB = yourProfile.DOB;
+                viewModel.City = city.CityName;
+                viewModel.State = state.StateName;
+                viewModel.Country = country.CoutnryName;
+            }
+            return viewModel;
+        }
+
+        public ProfileViewModel GetProfileByUserProfileID(int userProfileID)
+        {
+            UserProfileRepository repo = new UserProfileRepository();
+            ICountryRepository countryRepo = new CountryRepository();
+            IStateRepository stateRepo = new StateRepository();
+            ICityRepository cityRepo = new CityRepository();
+
+            ProfileViewModel viewModel = new ProfileViewModel();
+
+            var yourProfile = repo.Get().Where(s => s.UserProfileID == userProfileID).FirstOrDefault();
+            if (yourProfile != null)
+            {
+                var city = cityRepo.Get().Where(s => s.CityID == yourProfile.CityID).FirstOrDefault();
+                var state = stateRepo.Get().Where(s => s.StateID == city.StateID).FirstOrDefault();
+                var country = countryRepo.Get().Where(s => s.CountryID == state.CountryID).FirstOrDefault();
+
+                viewModel.UserID = yourProfile.UserID;
+                viewModel.UserProfileID = yourProfile.UserProfileID;
                 viewModel.OrganizationID = yourProfile.OrganizationID;
                 viewModel.FirstName = yourProfile.FirstName;
                 viewModel.LastName = yourProfile.LastName;

@@ -56,15 +56,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\City.cs" />
+    <Compile Include="Model\City.cs">
+      <DependentUpon>SocialApp.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Comment.cs">
       <DependentUpon>SocialApp.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Conversation.cs">
       <DependentUpon>SocialApp.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Country.cs" />
-    <Compile Include="Model\FriendRequest.cs">
+    <Compile Include="Model\Country.cs">
       <DependentUpon>SocialApp.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Like.cs">
@@ -97,7 +98,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SocialApp.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\State.cs" />
+    <Compile Include="Model\State.cs">
+      <DependentUpon>SocialApp.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\UserFriend.cs">
       <DependentUpon>SocialApp.tt</DependentUpon>
     </Compile>
@@ -109,11 +112,16 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\AddOrganizationViewModel.cs" />
+    <Compile Include="ViewModel\CommentsVM.cs" />
     <Compile Include="ViewModel\ConversationViewModel.cs" />
     <Compile Include="ViewModel\DisplayProfileViewModel.cs" />
     <Compile Include="ViewModel\EditOrganizationViewModel.cs" />
     <Compile Include="ViewModel\EditUserProfileViewModel.cs" />
+    <Compile Include="ViewModel\NotificationViewModel.cs" />
+    <Compile Include="ViewModel\UserFriendViewModel.cs" />
+    <Compile Include="ViewModel\LikesVM.cs" />
     <Compile Include="ViewModel\OrganizationUsersViewModel.cs" />
+    <Compile Include="ViewModel\PostViewModel.cs" />
     <Compile Include="ViewModel\UserMessageViewModel.cs" />
     <Compile Include="ViewModel\UserProfileViewModel.cs" />
     <Compile Include="ViewModel\ProfileViewModel.cs" />

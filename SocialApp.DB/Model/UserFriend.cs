@@ -18,6 +18,7 @@ namespace SocialApp.DB.Model
         public Nullable<int> UserProfileID { get; set; }
         public Nullable<int> FriendID { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
+        public Nullable<bool> IsRequestPending { get; set; }
     
         public virtual UserProfile UserProfile { get; set; }
         public virtual UserProfile UserProfile1 { get; set; }

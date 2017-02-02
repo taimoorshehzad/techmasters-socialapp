@@ -9,7 +9,13 @@ namespace SocialApp.DB.ViewModel
 {
     public class ProfileViewModel
     {
+        public ProfileViewModel()
+        {
+            Notifications = new List<ViewModel.NotificationViewModel>();
+        }
+
         public string UserID { get; set; }
+        public int UserProfileID { get; set; }
         public int? OrganizationID { get; set; }
         
         [Display(Name = "First Name")]
@@ -41,5 +47,14 @@ namespace SocialApp.DB.ViewModel
 
         [Display(Name = "Country")]
         public string Country { get; set; }
+
+        public bool IsOwnProfile { get; set; }
+
+        public string Age { get; set; }
+
+        public bool IsFriendRequestSent { get; set; }
+        public bool IsFriend { get; set; }
+        public bool IsFriendRequestPending { get; set; }
+        public List<NotificationViewModel> Notifications { get; set; }
     }
 }

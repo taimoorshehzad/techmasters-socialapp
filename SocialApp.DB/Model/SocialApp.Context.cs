@@ -27,7 +27,6 @@ namespace SocialApp.DB.Model
     
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Conversation> Conversations { get; set; }
-        public virtual DbSet<FriendRequest> FriendRequests { get; set; }
         public virtual DbSet<Like> Likes { get; set; }
         public virtual DbSet<LikeStatu> LikeStatus { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }

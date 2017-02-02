@@ -1,4 +1,5 @@
 ﻿using SocailApp.Repository;
+using SocialApp.DB.Model;
 using SocialApp.DB.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,10 +35,20 @@ namespace SocialApp.BL
             {
                 UserMessageViewModel viewModel = new UserMessageViewModel();
                 viewModel.Message = item.Message;
-                viewModel.MessageFrom = ProfileRepository.Get().FirstOrDefault(s => s.UserProfileID == item.MessageFrom).FirstName + " " + ProfileRepository.Get().FirstOrDefault(s => s.UserProfileID == item.MessageFrom).LastName;
+                //viewModel.MessageFrom = ProfileRepository.Get().FirstOrDefault(s => s.UserProfileID == item.MessageFrom).FirstName + " " + ProfileRepository.Get().FirstOrDefault(s => s.UserProfileID == item.MessageFrom).LastName;
                 viewModelList.Add(viewModel);
             }
             return viewModelList;
+        }
+
+        public void SendMessage(UserMessageViewModel message)
+        {
+            UserMessage userMessage = new UserMessage();
+            userMessage.Message = message.Message;
+            userMessage.MessageFrom = message.MessageFrom;
+            userMessage.MessageTo = message.MessageTo;
+
+            UserMessageRepository.SendMessage(userMessage);
         }
     }
 

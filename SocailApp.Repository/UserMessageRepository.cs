@@ -18,5 +18,26 @@ namespace SocailApp.Repository
         {
             return _context.UserMessages.ToList();
         }
+
+        public void SendMessage(UserMessage message)
+        {
+            var conversation = _context.Conversations
+                .Where(s => (s.UserFrom == message.MessageFrom ||
+                s.UserTo == message.MessageFrom) &&
+                s.UserFrom == message.MessageTo ||
+                s.UserTo == message.MessageTo).FirstOrDefault();
+            if (conversation == null)
+            {
+                conversation = new Conversation()
+                {
+                    UserFrom = message.MessageFrom,
+                    UserTo = message.MessageTo.Value           
+                };
+                _context.Conversations.Add(conversation);
+            }
+            conversation.UserMessages.Add(message);
+
+            _context.SaveChanges();
+        }
     }
 }

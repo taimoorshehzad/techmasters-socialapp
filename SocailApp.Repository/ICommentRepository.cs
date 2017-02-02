@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace SocailApp.Repository
 {
-    public interface IUserMessageRepository
+    public interface ICommentRepository
     {
-        List<UserMessage> GetMessage();
-
-        void SendMessage(UserMessage message);
+        void SavePostComment(Comment comment);
+        IEnumerable<Comment> GetCommentsByPost(int postID);
     }
 }
