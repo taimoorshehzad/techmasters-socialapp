@@ -126,5 +126,11 @@ namespace SocialApp.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult PostComments(int postID)
+        {
+            var postComments = new CommentBL().GetCommentsByPostID(postID);
+            return PartialView(postComments);
+        }
+
     }
 }

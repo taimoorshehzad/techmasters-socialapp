@@ -160,7 +160,7 @@
 
     function LoadCommentsAndShowModal(postID) {
         $.ajax({
-            url: "/Home/PostComments",
+            url: "/Ajax/PostComments",
             type: "POST",
             dataType: "html",
             data: { postID: postID },

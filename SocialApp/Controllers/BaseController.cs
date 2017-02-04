@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SocialApp.Utility;
+using Microsoft.AspNet.Identity;
 
 namespace SocialApp.Controllers
 {
@@ -15,6 +16,7 @@ namespace SocialApp.Controllers
         public BaseController()
         {
             var userProfileID = System.Web.HttpContext.Current.User.Identity.GetUserProfileID();
+            
             int userProfileIDCopy = userProfileID;
             if (System.Web.HttpContext.Current.Request.QueryString["user"] != null && System.Web.HttpContext.Current.Request.QueryString["user"] != "")
             {
